@@ -91,80 +91,103 @@ h1 {
     z-index: 6;
 }
 
-/* --- AQUÍ COMIENZA EL CÓDIGO DE LAS ESCOPETAS DETALLADAS --- */
+/* --- ESCOPETAS REALISTAS Y MÁS ABAJO --- */
 .guns-container {
     position: absolute;
-    bottom: -40px;
+    /* CAMBIO CLAVE: -120px para bajarlas mucho más */
+    bottom: -120px; 
     left: 0;
     width: 100%;
-    height: 300px;
+    height: 400px; /* Aumentamos altura del contenedor */
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-end; /* Alineadas al fondo */
     z-index: 30;
     pointer-events: none;
-    gap: 120px;
+    gap: 150px; /* Más espacio entre ellas */
 }
 
+/* Base del rifle */
 .rifle {
     position: relative;
-    width: 80px;
-    height: 380px;
+    width: 60px; /* Más finas */
+    height: 500px; /* Más largas */
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(10px 10px 10px rgba(0,0,0,0.6));
+    filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5));
     transform-origin: bottom center;
 }
 
-/* 1. La Mira */
+/* 1. La Mira (Puntita) */
 .rifle-sight {
-    width: 6px;
-    height: 12px;
+    width: 4px;
+    height: 15px;
     background-color: #111;
     z-index: 4;
-    border-radius: 2px 2px 0 0;
-    margin-bottom: -2px;
+    margin-bottom: -5px;
 }
 
-/* 2. El Cañón (Metal) */
+/* 2. El Cañón (Metal Azulado como la referencia) */
 .rifle-barrel {
-    width: 24px;
-    height: 220px;
+    width: 28px;
+    height: 350px; /* Cañón bien largo */
     z-index: 3;
-    background: linear-gradient(90deg, #2b323c 0%, #5c6b7f 20%, #a4b0be 45%, #8291a3 60%, #2b323c 100%);
-    border-top: 2px solid #000;
-    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+    /* Degradado azul metálico */
+    background: linear-gradient(90deg, 
+        #1a237e 0%,   /* Azul oscuro borde */
+        #5c6bc0 30%,  /* Azul claro brillo */
+        #7986cb 50%,  /* Brillo central */
+        #3949ab 70%, 
+        #1a237e 100%  /* Azul oscuro borde */
+    );
+    border: 1px solid #000;
+    /* Ligera forma cónica */
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
 }
 
-/* 3. Guardamanos (Madera) */
+/* 3. Guardamanos (Madera de conexión) */
 .rifle-wood-grip {
-    width: 36px;
-    height: 100px;
-    margin-top: -80px;
+    width: 32px;
+    height: 60px;
+    margin-top: -20px; /* Conecta con el cañón */
     z-index: 4;
-    border-radius: 4px;
-    background: linear-gradient(90deg, #5d3a1a 0%, #8f5e2d 30%, #a67c52 50%, #8f5e2d 70%, #5d3a1a 100%);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    background-image: repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 11px);
+    background: linear-gradient(90deg, #3e2723 0%, #8d6e63 40%, #4e342e 100%);
+    box-shadow: 0 5px 5px rgba(0,0,0,0.5);
 }
 
-/* 4. Culata */
+/* 4. Culata (Parte trasera) */
 .rifle-stock {
-    width: 60px;
-    height: 140px;
-    margin-top: -10px;
+    width: 45px;
+    height: 150px;
+    margin-top: -5px;
     z-index: 5;
-    border-radius: 15px 15px 0 0;
-    background: linear-gradient(90deg, #4e342e 0%, #795548 20%, #8d6e63 45%, #5d4037 80%, #3e2723 100%);
-    box-shadow: inset 0 5px 10px rgba(255,255,255,0.1), inset 0 -10px 20px rgba(0,0,0,0.5);
-    border-bottom: 5px solid #222;
+    /* Forma más recta y menos redonda */
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(90deg, #3e2723 0%, #795548 30%, #5d4037 60%, #281815 100%);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
-/* Posiciones */
-.rifle-center { z-index: 32; transform: scale(1.1); }
-.rifle-left { transform: rotate(20deg) translateY(20px); }
-.rifle-right { transform: rotate(-20deg) translateY(20px); }
+/* --- POSICIONES (Ajustadas para que no tapen tanto) --- */
+
+/* Escopeta Central */
+.rifle-center { 
+    z-index: 32; 
+    transform: scale(1.0); /* Tamaño normal */
+    margin-bottom: -20px; /* Un pelín más hundida */
+}
+
+/* Escopeta Izquierda */
+.rifle-left { 
+    /* Rotamos y bajamos un poco */
+    transform: rotate(25deg) translateY(30px); 
+}
+
+/* Escopeta Derecha */
+.rifle-right { 
+    /* Rotamos y bajamos un poco */
+    transform: rotate(-25deg) translateY(30px); 
+}
 
 /* --- ESTILOS DE LOS PATOS --- */
 .duck-container {
