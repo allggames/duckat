@@ -7,8 +7,8 @@
     --wave-blue-front: #2980b9;
     --wood-dark: #5d4037;
     --wood-light: #8d6e63;
-    --metal-blue: #3f51b5;
-    --metal-highlight: #7986cb;
+    --metal-blue: #2c3e50; /* Azul oscuro metálico */
+    --metal-highlight: #78909c; /* Brillo metálico */
 }
 
 body {
@@ -109,11 +109,11 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE CENTRAL (AJUSTADO: Visible pero abajo) --- */
+/* --- RIFLE CENTRAL (PUNTO MEDIO DE PROFUNDIDAD) --- */
 .rifle-container {
     position: absolute;
-    /* CAMBIO: -160px muestra la madera y la base del cañón */
-    bottom: -160px; 
+    /* Ajustado para que se vea el cuerpo pero no flote */
+    bottom: -140px; 
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
@@ -122,74 +122,93 @@ h1 {
 
 .rifle {
     position: relative;
-    width: 80px;
-    height: 500px;
+    width: 90px;
+    height: 550px; /* Rifle largo */
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
 }
 
+/* 1. MIRA */
 .sight {
     width: 6px;
-    height: 15px;
+    height: 12px;
     background: #111;
-    margin-bottom: -5px;
+    margin-bottom: -4px;
     z-index: 5;
     border-radius: 2px 2px 0 0;
 }
 
+/* 2. PUNTA DEL CAÑÓN (El agujero) */
 .barrel-tip {
-    width: 34px;
-    height: 15px;
+    width: 26px; /* Un poco más estrecho que el cañón base */
+    height: 8px;
     background: #000;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    border-radius: 50%;
     margin-bottom: -2px;
     z-index: 4;
+    border: 1px solid #444;
 }
 
+/* 3. CAÑÓN (Profundidad sutil) */
 .barrel {
-    width: 34px;
-    height: 400px; /* Cañón largo */
+    width: 36px;
+    height: 380px; /* Largo */
+    z-index: 3;
+    /* Degradado metálico realista */
     background: linear-gradient(90deg, 
         var(--metal-blue) 0%, 
-        var(--metal-highlight) 40%, 
+        var(--metal-highlight) 35%, 
+        #eceff1 50%, /* Brillo central fuerte */
+        var(--metal-highlight) 65%, 
         var(--metal-blue) 100%);
-    border-left: 1px solid rgba(0,0,0,0.5);
-    border-right: 1px solid rgba(0,0,0,0.5);
-    z-index: 3;
+    
+    /* AQUI ESTÁ EL TRUCO: */
+    /* Hacemos que la parte de arriba sea un poco más estrecha (20%) que la de abajo */
+    /* Esto da profundidad sin deformar */
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
 }
 
+/* 4. GUARDAMANOS (Madera delantera) */
 .forend {
-    width: 44px;
+    width: 46px;
     height: 120px;
-    /* Subimos la madera para que se vea bien */
-    margin-top: -120px; 
-    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 50%, var(--wood-dark));
-    border-radius: 4px;
+    margin-top: -100px; /* Se superpone bien al cañón */
     z-index: 4;
+    
+    /* Textura madera */
+    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 50%, var(--wood-dark));
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    
+    /* También lo afinamos un poco arriba para seguir la línea */
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
 }
 
+/* 5. CULATA (Cuerpo principal) */
 .stock {
     width: 70px;
     height: 200px;
-    margin-top: -10px;
-    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 40%, var(--wood-dark));
-    border-radius: 15px 15px 0 0;
+    margin-top: -5px;
     z-index: 5;
-    box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 5px 15px rgba(0,0,0,0.4);
+    
+    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 40%, var(--wood-dark));
+    /* Forma redondeada arriba */
+    border-radius: 15px 15px 0 0;
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.1);
 }
 
+/* 6. GATILLO (Detalle visual abajo) */
 .trigger-guard {
     position: absolute;
-    bottom: 140px;
+    bottom: 120px;
     width: 30px;
     height: 40px;
-    border: 4px solid #222;
+    border: 4px solid #111;
     border-top: none;
     border-radius: 0 0 50% 50%;
-    z-index: 4;
+    z-index: 6;
+    background: rgba(0,0,0,0.3);
 }
 
 /* --- INTERFAZ --- */
