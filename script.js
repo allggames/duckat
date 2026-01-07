@@ -12,19 +12,32 @@ const bonusPopup = document.getElementById('bonus-popup');
 const topBanner = document.querySelector('.top-banner');
 const progressWrapper = document.querySelector('.progress-wrapper');
 
+// Referencias nuevas
+const container = document.getElementById('game-container');
+const introScreen = document.getElementById('intro-screen');
+const gameUI = document.getElementById('game-ui');
+
 function startGame() {
-  startBtn.style.display = 'none';
-  topBanner.style.display = 'none';
-  progressWrapper.style.display = 'block';
+    // 1. Ocultar Título y Botón (Desvanecer)
+    introScreen.style.opacity = '0';
+    setTimeout(() => { introScreen.style.display = 'none'; }, 500);
 
-  ducksRemaining = TOTAL_DUCKS_PER_ROUND;
-  ducksHitCount = 0;
+    // 2. Activar Animación (Abre cortinas, sube rifles)
+    container.classList.add('curtains-open');
+    container.classList.add('game-active');
+    
+    // 3. Mostrar Interfaz de Juego
+    gameUI.style.display = 'block';
 
-  counterElement.innerText = ducksRemaining;
-  updateProgressBar();
-
-  isPlaying = true;
-  spawnDuck();
+    // 4. Reiniciar Lógica de Juego
+    ducksRemaining = TOTAL_DUCKS_PER_ROUND;
+    ducksHitCount = 0;
+    counterElement.innerText = ducksRemaining;
+    updateProgressBar();
+    
+    // 5. Empezar a sacar patos (con un pequeño retraso para que se abran las cortinas)
+    isPlaying = true;
+    setTimeout(spawnDuck, 1000);
 }
 
 function updateProgressBar() {
