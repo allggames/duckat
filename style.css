@@ -109,10 +109,11 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE (SOLO LA PUNTA MÁS CORTA) --- */
+/* --- RIFLE (CALCULADO MILIMÉTRICAMENTE) --- */
 .rifle-container {
     position: absolute;
-    bottom: -180px; /* Mantenemos esta altura para ver la madera */
+    /* Mantenemos esta base para ver la madera */
+    bottom: -180px; 
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
@@ -123,7 +124,9 @@ h1 {
 .rifle {
     position: relative;
     width: 100px;
-    height: 500px;
+    /* REDUCIMOS ALTURA TOTAL a 420px */
+    /* Esto baja el tope del arma exactamente a la línea de las olas */
+    height: 420px; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -141,8 +144,8 @@ h1 {
 
 /* 2. PUNTA */
 .barrel-tip {
-    width: 20px; /* Un poco más fina arriba */
-    height: 5px;
+    width: 22px; 
+    height: 6px;
     background: #000;
     border-radius: 50%;
     margin-bottom: -2px;
@@ -150,12 +153,11 @@ h1 {
     border: 1px solid #555;
 }
 
-/* 3. CAÑÓN (ACORTADO) */
+/* 3. CAÑÓN (MÁS CORTO) */
 .barrel {
-    width: 50px; 
-    /* CAMBIO CLAVE: Reducimos de 240px a 210px */
-    /* Esto baja la punta unos 30px, dejándola bajo la línea celeste */
-    height: 210px; 
+    width: 55px; 
+    /* AJUSTE: Altura 130px. Corto y robusto. */
+    height: 130px; 
     z-index: 3;
     background: linear-gradient(90deg, 
         var(--metal-dark) 0%, 
@@ -164,25 +166,24 @@ h1 {
         var(--metal-light) 60%, 
         var(--metal-dark) 100%);
     
-    /* Mismo estilo cónico */
+    /* Conicidad fuerte */
     clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
 }
 
 /* 4. GUARDAMANOS */
 .forend {
-    width: 60px;
-    height: 90px;
-    /* Ajustamos el margen para que conecte con el cañón más corto */
-    margin-top: -60px; 
+    width: 70px;
+    height: 80px;
+    margin-top: -50px; 
     z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
 /* 5. CULATA */
 .stock {
-    width: 70px;
+    width: 80px;
     height: 150px;
     margin-top: -5px;
     z-index: 5;
