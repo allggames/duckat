@@ -1,461 +1,529 @@
-/* --- ESTILOS GENERALES --- */
 :root {
-    --curtain-red: #b71c1c; /* Rojo más profundo */
-    --curtain-shadow: #7f0000;
-    --banner-gold: #ffca28;
-    
-    /* --- COLORES DE FONDO (ATARDECER OSCURO) --- */
-    --bg-sun-center: #f8bbd0; /* Rosa pálido centro */
-    --bg-ray-light: #ec407a;  /* Rosa intenso */
-    --bg-ray-dark: #880e4f;   /* Violeta/Burdeos oscuro */
-
-    /* --- COLORES DE AGUA Y ELEMENTOS --- */
-    --wave-back: #42a5f5;  /* Celeste vibrante */
-    --wave-front: #1e88e5; /* Azul mar */
-    --bush-green: #2e7d32;
-    --wood-dark: #3e2723;
-    --wood-light: #5d4037;
-    --metal-dark: #263238;
-    --metal-light: #546e7a;
+  --curtain-red: #b71c1c;
+  --curtain-shadow: #7f0000;
+  --banner-gold: #ffca28;
+  --bg-sun-center: #f8bbd0;
+  --bg-ray-light: #ec407a;
+  --bg-ray-dark: #880e4f;
+  --wave-back: #42a5f5;
+  --wave-front: #1e88e5;
+  --bush-green: #2e7d32;
+  --wood-dark: #3e2723;
+  --wood-light: #5d4037;
+  --metal-dark: #263238;
+  --metal-light: #546e7a;
 }
 
 body {
-    margin: 0;
-    overflow: hidden;
-    font-family: 'Arial Black', sans-serif;
-    background-color: #222;
-    cursor: crosshair;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Arial Black", sans-serif;
+  background-color: #222;
+  cursor: crosshair;
 }
 
 #game-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* --- 1. FONDO: SOL ATARDECER OSCURO --- */
 .stage-background {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 1;
-    background-image: 
-        /* Sol central */
-        radial-gradient(circle at 50% 90%, var(--bg-sun-center) 5%, transparent 60%),
-        /* Rayos */
-        repeating-conic-gradient(
-            from 0deg at 50% 90%, 
-            var(--bg-ray-light) 0deg 15deg, 
-            var(--bg-ray-dark) 15deg 30deg
-        );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-image: radial-gradient(circle at 50% 90%, var(--bg-sun-center) 5%, transparent 60%),
+    repeating-conic-gradient(from 0deg at 50% 90%, var(--bg-ray-light) 0deg 15deg, var(--bg-ray-dark) 15deg 30deg);
 }
 
-/* --- CORTINAS Y BANNER --- */
 .curtain {
-    position: absolute; top: 0; height: 100%; width: 15%;
-    background: repeating-linear-gradient(90deg, var(--curtain-red), var(--curtain-red) 40px, var(--curtain-shadow) 40px, var(--curtain-shadow) 80px);
-    z-index: 20;
-    box-shadow: 5px 0 20px rgba(0,0,0,0.8);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 15%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--curtain-red),
+    var(--curtain-red) 40px,
+    var(--curtain-shadow) 40px,
+    var(--curtain-shadow) 80px
+  );
+  z-index: 20;
+  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.8);
 }
-.left-curtain { left: 0; border-right: 5px solid var(--banner-gold); }
-.right-curtain { right: 0; border-left: 5px solid var(--banner-gold); }
+
+.left-curtain {
+  left: 0;
+  border-right: 5px solid var(--banner-gold);
+}
+.right-curtain {
+  right: 0;
+  border-left: 5px solid var(--banner-gold);
+}
 
 .top-banner {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 60%; height: 120px; background: var(--curtain-red);
-    border: 5px solid var(--banner-gold); border-top: none;
-    border-radius: 0 0 50% 50% / 0 0 30px 30px;
-    display: flex; justify-content: center; align-items: center;
-    z-index: 21; box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 120px;
+  background: var(--curtain-red);
+  border: 5px solid var(--banner-gold);
+  border-top: none;
+  border-radius: 0 0 50% 50% / 0 0 30px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 21;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
 }
 
 h1 {
-    margin: 0; color: var(--banner-gold); font-size: 4rem;
-    text-shadow: 3px 3px 0px #000; letter-spacing: 5px;
+  margin: 0;
+  color: var(--banner-gold);
+  font-size: 4rem;
+  text-shadow: 3px 3px 0px #000;
+  letter-spacing: 5px;
 }
 
 .stage-floor {
-    position: absolute; bottom: 0; width: 100%; height: 40px;
-    background: repeating-linear-gradient(90deg, #ef6c00, #ef6c00 50px, #e65100 50px, #e65100 100px);
-    border-top: 5px solid var(--banner-gold); z-index: 25;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: repeating-linear-gradient(90deg, #ef6c00, #ef6c00 50px, #e65100 50px, #e65100 100px);
+  border-top: 5px solid var(--banner-gold);
+  z-index: 25;
 }
 
-/* --- 2. OLAS (CORREGIDAS: REDONDAS CON PUNTAS) --- */
 .waves-layer {
-    position: absolute; bottom: 40px; width: 100%; pointer-events: none; overflow: hidden;
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  pointer-events: none;
+  overflow: hidden;
 }
-.back-layer { height: 260px; z-index: 2; }
-.front-layer { height: 190px; z-index: 5; }
+
+.back-layer {
+  height: 260px;
+  z-index: 2;
+}
+.front-layer {
+  height: 190px;
+  z-index: 5;
+}
 
 .wave {
-    position: absolute; width: 200%; left: 0; bottom: 0; height: 100%;
-    background-repeat: repeat-x;
-    
-    /* EL TRUCO PARA "REDONDEADAS CON PUNTITAS": */
-    /* Círculos transparentes que "comen" la parte superior del bloque de color */
-    /* Esto deja picos afilados hacia arriba entre los círculos */
-    background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
-    background-size: 100px 200px; /* El ancho del patrón es 100px */
+  position: absolute;
+  width: 200%;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
+  background-size: 100px 200px;
 }
 
 .wave-back {
-    --wave-color: var(--wave-back);
-    animation: waveLoop 8s linear infinite;
+  --wave-color: var(--wave-back);
+  animation: waveLoop 8s linear infinite;
 }
+
 .wave-front {
-    --wave-color: var(--wave-front);
-    animation: waveLoop 6s linear infinite reverse;
+  --wave-color: var(--wave-front);
+  animation: waveLoop 6s linear infinite reverse;
 }
 
-/* ANIMACIÓN FLUIDA (Sin cortes) */
 @keyframes waveLoop {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100px); } /* Debe coincidir con el ancho del background-size */
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100px);
+  }
 }
 
-/* --- 3. ARBUSTOS --- */
 .bush {
-    position: absolute; bottom: 0; z-index: 10;
-    width: 160px; height: 100px;
-    background: var(--bush-green);
-    border-radius: 100px 100px 0 0;
-    box-shadow: inset -5px -10px 20px rgba(0,0,0,0.3);
-    border: 3px solid #1b5e20;
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  width: 160px;
+  height: 100px;
+  background: var(--bush-green);
+  border-radius: 100px 100px 0 0;
+  box-shadow: inset -5px -10px 20px rgba(0, 0, 0, 0.3);
+  border: 3px solid #1b5e20;
 }
-.bush-left { left: -30px; }
-.bush-right { right: -30px; }
 
-/* --- 4. RIFLE (PUNTA CASI RECTA) --- */
+.bush-left {
+  left: -30px;
+}
+.bush-right {
+  right: -30px;
+}
+
 .rifle-container {
-    position: absolute;
-    bottom: -180px; left: 50%; transform: translateX(-50%);
-    z-index: 30; pointer-events: none;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+  position: absolute;
+  bottom: -180px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  pointer-events: none;
+  width: min(1200px, 120vw);
+  height: auto;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
 }
 
-.rifle {
-    position: relative; width: 90px; height: 400px;
-    display: flex; flex-direction: column; align-items: center;
+.rifle-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(0.5);
+  transform-origin: bottom center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-.sight { width: 4px; height: 8px; background: #000; margin-bottom: -3px; z-index: 10; border-radius: 2px; }
-
-.barrel-tip {
-    width: 28px; /* Casi igual de ancha que el cañón */
-    height: 6px; background: #000;
-    border-radius: 50%; margin-bottom: -2px; z-index: 5; border: 1px solid #444;
+@media (max-width: 1024px) {
+  .rifle-container {
+    bottom: -170px;
+    width: min(1050px, 125vw);
+  }
+  .rifle-image {
+    transform: scale(0.5);
+  }
 }
 
-.barrel {
-    width: 45px; /* Cañón */
-    height: 160px; z-index: 3;
-    background: linear-gradient(90deg, var(--metal-dark), var(--metal-light) 40%, var(--metal-light) 60%, var(--metal-dark));
-    
-    /* CAMBIO: Clip-path mucho más ancho arriba para que sea menos cónico */
-    /* 10% y 90% es casi recto, pero con un toque de profundidad */
-    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
+@media (max-width: 600px) {
+  .rifle-container {
+    bottom: -210px;
+    width: min(900px, 170vw);
+  }
+  .rifle-image {
+    transform: scale(0.82);
+  }
 }
 
-.forend {
-    width: 60px; height: 90px; margin-top: -50px; z-index: 4;
-    background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    /* Madera también más recta */
-    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+@media (max-width: 380px) {
+  .rifle-container {
+    bottom: -225px;
+    width: min(820px, 190vw);
+  }
+  .rifle-image {
+    transform: scale(0.78);
+  }
 }
 
-.stock {
-    width: 70px; height: 150px; margin-top: -5px; z-index: 5;
-    background: linear-gradient(90deg, var(--wood-dark), #5d4037 40%, var(--wood-dark));
-    border-radius: 20px 20px 0 0;
-}
-
-/* --- INTERFAZ --- */
-/* --- INTERFAZ --- */
 #score-board {
-    position: absolute;
-    /* Ajustamos la posición para que quede bien centrado debajo del título o la barra */
-    top: 160px; 
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 2.5rem; /* Un poco más grande para que se lea bien el contador */
-    background: rgba(44, 62, 80, 0.9); /* Fondo oscuro semitransparente */
-    padding: 10px 40px;
-    border-radius: 50px; /* Bordes muy redondos estilo cápsula */
-    border: 4px solid var(--banner-gold); /* Borde dorado grueso */
-    z-index: 100;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Sombra para que flote */
-    text-shadow: 2px 2px 0 #000;
-    font-family: 'Arial Black', sans-serif;
-    letter-spacing: 1px;
+  position: absolute;
+  top: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 2.5rem;
+  background: rgba(44, 62, 80, 0.9);
+  padding: 10px 40px;
+  border-radius: 50px;
+  border: 4px solid var(--banner-gold);
+  z-index: 100;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 0 #000;
+  font-family: "Arial Black", sans-serif;
+  letter-spacing: 1px;
 }
 
-/* El número del contador puede tener un color diferente si quieres */
 #duck-counter {
-    color: #f1c40f; /* Dorado para destacar el número */
-    margin-left: 10px;
+  color: #f1c40f;
+  margin-left: 10px;
 }
 
 #start-btn {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: var(--banner-gold); color: #c0392b;
-    padding: 20px 50px; font-size: 2.5rem;
-    border: 4px solid #fff; border-radius: 10px; cursor: pointer;
-    z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    font-weight: 800; text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--banner-gold);
+  color: #c0392b;
+  padding: 20px 50px;
+  font-size: 2.5rem;
+  border: 4px solid #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 200;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-weight: 800;
+  text-transform: uppercase;
 }
-#start-btn:hover { background: #ffca28; transform: translate(-50%, -50%) scale(1.05); color: #b71c1c; }
 
-/* --- PATOS CON CSS (ESTILO AMARILLO) --- */
+#start-btn:hover {
+  background: #ffca28;
+  transform: translate(-50%, -50%) scale(1.05);
+  color: #b71c1c;
+}
+
 #ducks-layer {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 4;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
 }
 
 .duck-container {
-    position: absolute;
-    bottom: 170px;
-    width: 80px;
-    height: 150px;
-    z-index: 3;
-    animation: moveDuck linear forwards;
+  position: absolute;
+  bottom: 170px;
+  width: 80px;
+  height: 150px;
+  z-index: 3;
+  animation: moveDuck linear forwards;
 }
 
-/* El Palo */
 .duck-stick {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 90px; /* Ajustamos para que conecte con el cuerpo */
-    background: #5d4037;
-    border-radius: 0 0 3px 3px;
-    z-index: 1;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 90px;
+  background: #5d4037;
+  border-radius: 0 0 3px 3px;
+  z-index: 1;
 }
 
-/* Contenedor gráfico del pato */
 .duck-wrapper {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 60px;
-    cursor: crosshair;
-    z-index: 2; /* Encima del palo */
-    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)); /* Sombra general */
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 60px;
+  cursor: crosshair;
+  z-index: 2;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
 }
 
-/* Cabeza (Círculo Amarillo) */
 .duck-head {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    width: 35px;
-    height: 35px;
-    background-color: #fdd835; /* Amarillo Pato */
-    border-radius: 50%;
-    z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  background-color: #fdd835;
+  border-radius: 50%;
+  z-index: 10;
 }
 
-/* Pico (Naranja) */
 .duck-beak {
-    position: absolute;
-    top: 18px;
-    left: -8px; /* Sobresale a la izquierda */
-    width: 14px;
-    height: 10px;
-    background-color: #f57c00; /* Naranja */
-    border-radius: 10px 5px 5px 10px;
+  position: absolute;
+  top: 18px;
+  left: -8px;
+  width: 14px;
+  height: 10px;
+  background-color: #f57c00;
+  border-radius: 10px 5px 5px 10px;
 }
 
-/* Ojo (Blanco con pupila negra) */
 .duck-eye {
-    position: absolute;
-    top: 10px;
-    left: 5px;
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
-    border-radius: 50%;
-}
-.duck-eye::after { /* Pupila */
-    content: '';
-    position: absolute;
-    top: 3px; right: 1px;
-    width: 4px; height: 4px;
-    background-color: #000;
-    border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 50%;
 }
 
-/* Cuerpo (Óvalo Amarillo) */
+.duck-eye::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  right: 1px;
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
 .duck-torso {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    width: 60px;
-    height: 35px;
-    background-color: #fdd835; /* Amarillo Pato */
-    border-radius: 0 0 40px 40px; /* Forma de bote */
-    z-index: 5;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 60px;
+  height: 35px;
+  background-color: #fdd835;
+  border-radius: 0 0 40px 40px;
+  z-index: 5;
 }
-/* Cola del pato (Punta derecha del cuerpo) */
+
 .duck-torso::after {
-    content: '';
-    position: absolute;
-    top: -5px; right: -2px;
-    width: 20px; height: 20px;
-    background-color: #fdd835;
-    border-radius: 0 50% 0 50%;
-    transform: rotate(45deg);
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: -2px;
+  width: 20px;
+  height: 20px;
+  background-color: #fdd835;
+  border-radius: 0 50% 0 50%;
+  transform: rotate(45deg);
 }
 
-/* Ala (Detalle lateral) */
 .duck-wing {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    width: 30px;
-    height: 18px;
-    background-color: #fbc02d; /* Amarillo un poco más oscuro */
-    border-radius: 0 0 20px 20px;
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 30px;
+  height: 18px;
+  background-color: #fbc02d;
+  border-radius: 0 0 20px 20px;
 }
 
-/* Animación al golpear */
 .duck-hit {
-    transform: scale(1.1) rotate(25deg) translateY(20px);
-    opacity: 0;
-    filter: grayscale(1); /* Se pone gris al morir */
-    transition: all 0.2s ease-out;
+  transform: scale(1.1) rotate(25deg) translateY(20px);
+  opacity: 0;
+  filter: grayscale(1);
+  transition: all 0.2s ease-out;
 }
 
 @keyframes moveDuck {
-    from { left: -100px; }
-    to { left: calc(100vw + 100px); }
+  from {
+    left: -100px;
+  }
+  to {
+    left: calc(100vw + 100px);
+  }
 }
 
-
-/* --- BARRA DE PROGRESO DE BONOS --- */
 .progress-wrapper {
-    position: absolute;
-    /* CAMBIO: Ahora está arriba, ocupando el lugar del título */
-    top: 30px; 
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    max-width: 400px;
-    z-index: 90;
-    pointer-events: none;
-    /* CAMBIO: Oculta por defecto hasta que empiece el juego */
-    display: none; 
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 400px;
+  z-index: 90;
+  pointer-events: none;
+  display: none;
 }
 
 .progress-bar {
-    width: 100%;
-    height: 24px;
-    background-color: #222;
-    border: 3px solid #f1c40f;
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  width: 100%;
+  height: 24px;
+  background-color: #222;
+  border: 3px solid #f1c40f;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 #progress-fill {
-    width: 0%; 
-    height: 100%;
-    background: linear-gradient(90deg, #43a047, #76ff03); 
-    transition: width 0.3s ease-out; 
-    box-shadow: inset 0 2px 0 rgba(255,255,255,0.3);
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #43a047, #76ff03);
+  transition: width 0.3s ease-out;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
 .tick {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 2px;
-    background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
 }
+
 .tick span {
-    position: absolute;
-    top: 26px; 
-    left: -50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    color: #fff;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px #000;
+  position: absolute;
+  top: 26px;
+  left: -50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
 }
 
 .progress-label {
-    text-align: center;
-    color: #f1c40f;
-    font-size: 12px;
-    margin-top: 15px; 
-    letter-spacing: 2px;
-    text-shadow: 1px 1px 0 #000;
+  text-align: center;
+  color: #f1c40f;
+  font-size: 12px;
+  margin-top: 15px;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0 #000;
 }
 
-/* --- MENSAJE DE POPUP DE BONO --- */
 #bonus-popup {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 4rem;
-    color: #fff;
-    background: linear-gradient(45deg, #ffca28, #f57c00);
-    padding: 20px 40px;
-    border-radius: 20px;
-    border: 5px solid #fff;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    text-align: center;
-    white-space: nowrap;
-    font-family: 'Arial Black', sans-serif; /* Asegurar fuente gruesa */
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 4rem;
+  color: #fff;
+  background: linear-gradient(45deg, #ffca28, #f57c00);
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: 5px solid #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+  white-space: nowrap;
+  font-family: "Arial Black", sans-serif;
 }
 
-/* Animación cuando aparece el bono */
 .bonus-anim {
-    animation: popBonus 1.5s ease-out forwards;
+  animation: popBonus 1.5s ease-out forwards;
 }
 
 @keyframes popBonus {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    20% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-    30% { transform: translate(-50%, -50%) scale(1); }
-    80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    100% { transform: translate(-50%, -150%) scale(1.5); opacity: 0; } /* Sube y desaparece */
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -150%) scale(1.5);
+    opacity: 0;
+  }
 }
 
-/* --- EFECTO DE EXPLOSIÓN AL IMPACTAR --- */
 .explosion {
-    position: absolute;
-    font-size: 5rem; /* Emoji grande */
-    z-index: 200; /* Por encima de todo */
-    pointer-events: none; /* Que no interfiera con otros clics */
-    /* Centramos el elemento exactamente en el punto del clic */
-    transform: translate(-50%, -50%);
-    /* Animación rápida de "pop" y desvanecimiento */
-    animation: boomAnim 0.5s ease-out forwards;
-    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8); /* Un brillito extra */
+  position: absolute;
+  font-size: 5rem;
+  z-index: 200;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: boomAnim 0.5s ease-out forwards;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
 }
 
 @keyframes boomAnim {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.5); /* Empieza pequeño */
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2); /* Crece un poco más de lo normal */
-    }
-    100% {
-        opacity: 0; /* Se desvanece */
-        transform: translate(-50%, -50%) scale(1); /* Vuelve a tamaño normal mientras desaparece */
-    }
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
