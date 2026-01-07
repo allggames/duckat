@@ -3,46 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Duck Shooter - Carnival</title>
+    <title>Carnival Duck Shooter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="game-container">
-        <div class="top-banner"></div>
-        <div class="curtain left"></div>
-        <div class="curtain right"></div>
+        <div class="stage-background"></div> <div class="curtain left-curtain"></div>
+        <div class="curtain right-curtain"></div>
+        <div class="top-banner">
+            <h1>SHOOTING</h1>
+            <div class="banner-lights"></div>
+        </div>
         
-        <h1>SHOOTING</h1>
-        
-        <div id="score-board">Puntos: <span id="score">0</span></div>
-
-        <div id="start-msg" onclick="startGame()">¡CLICK PARA JUGAR!</div>
+        <div id="score-board">PUNTOS: <span id="score">0</span></div>
+        <div id="start-btn" onclick="startGame()">¡JUGAR!</div>
 
         <div id="ducks-layer"></div>
 
-        <div class="waves"></div>
-        
-        <div class="guns-container">
-            <div class="rifle rifle-left">
-                <div class="rifle-stock"></div>
-                <div class="rifle-wood-grip"></div>
-                <div class="rifle-barrel"></div>
-                <div class="rifle-sight"></div>
-            </div>
+        <div class="waves-layer">
+            <div class="wave wave-back"></div>
+            <div class="wave wave-front"></div>
+        </div>
+        <div class="stage-floor"></div>
 
-            <div class="rifle rifle-center">
-                <div class="rifle-stock"></div>
-                <div class="rifle-wood-grip"></div>
-                <div class="rifle-barrel"></div>
-                <div class="rifle-sight"></div>
-            </div>
-
-            <div class="rifle rifle-right">
-                <div class="rifle-stock"></div>
-                <div class="rifle-wood-grip"></div>
-                <div class="rifle-barrel"></div>
-                <div class="rifle-sight"></div>
+        <div class="rifle-container">
+            <div class="rifle">
+                <div class="barrel-tip"></div>
+                <div class="barrel"></div>
+                <div class="sight"></div>
+                <div class="forend"></div> <div class="stock"></div> <div class="trigger-guard"></div>
             </div>
         </div>
     </div>
