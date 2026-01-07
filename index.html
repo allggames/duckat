@@ -10,9 +10,9 @@
 
     <div id="game-container">
         <div class="stage-background"></div>
+        
         <div class="curtain left-curtain"></div>
         <div class="curtain right-curtain"></div>
-        
         <div class="top-banner">
             <h1>DUCKAT</h1>
         </div>
@@ -20,12 +20,14 @@
         <div id="score-board">PUNTOS: <span id="score">0</span></div>
         <div id="start-btn" onclick="startGame()">¡JUGAR!</div>
 
+        <div class="waves-layer back-layer">
+            <div class="wave wave-back"></div>
+        </div>
+
         <div id="ducks-layer"></div>
 
-        <div class="waves-layer">
-            <div class="wave wave-back"></div>
+        <div class="waves-layer front-layer">
             <div class="wave wave-front"></div>
-            
             <div class="bush bush-left"></div>
             <div class="bush bush-right"></div>
         </div>
