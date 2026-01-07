@@ -18,15 +18,14 @@ function spawnDuck() {
     const duckContainer = document.createElement('div');
     duckContainer.classList.add('duck-container');
     
-    // Altura aleatoria
-    const randomHeight = Math.floor(Math.random() * 100) + 180;
+    // ALTURA AJUSTADA: Rango más pequeño para que siempre estén "en el agua"
+    // Entre 130px y 170px desde abajo
+    const randomHeight = Math.floor(Math.random() * 40) + 130;
     duckContainer.style.bottom = randomHeight + 'px';
 
-    // Velocidad aleatoria
     const randomSpeed = (Math.random() * 4) + 3;
     duckContainer.style.animationDuration = randomSpeed + 's';
 
-    // Pato
     const stick = document.createElement('div');
     stick.classList.add('duck-stick');
     
@@ -37,7 +36,6 @@ function spawnDuck() {
     duckContainer.appendChild(stick);
     duckContainer.appendChild(duckBody);
 
-    // Click
     duckBody.addEventListener('mousedown', function(e) {
         if (!duckBody.classList.contains('duck-hit')) {
             score += 10;
@@ -50,14 +48,12 @@ function spawnDuck() {
 
     gameContainer.appendChild(duckContainer);
 
-    // Limpieza
     setTimeout(() => {
         if(duckContainer.parentNode) {
             duckContainer.remove();
         }
     }, (randomSpeed + 0.5) * 1000);
 
-    // Siguiente pato
     const nextSpawnTime = Math.random() * 1500 + 500;
     setTimeout(spawnDuck, nextSpawnTime);
 }
