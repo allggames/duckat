@@ -5,10 +5,10 @@
     --banner-gold: #f1c40f;
     --wave-blue-back: #3498db;
     --wave-blue-front: #2980b9;
-    --wood-dark: #3e2723;
-    --wood-light: #5d4037;
-    --metal-dark: #1c2833;
-    --metal-light: #566573;
+    --wood-dark: #4e342e;
+    --wood-light: #8d6e63;
+    --metal-blue: #37474f;
+    --metal-highlight: #90a4ae;
 }
 
 body {
@@ -85,7 +85,7 @@ h1 {
     z-index: 25;
 }
 
-/* --- OLAS --- */
+/* --- OLAS (La línea celeste está a 150px de altura) --- */
 .waves-layer {
     position: absolute;
     bottom: 40px;
@@ -109,23 +109,22 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE (AJUSTADO: MÁS CORTO PARA NO TAPAR PATOS) --- */
+/* --- RIFLE CENTRAL (POSICIÓN PERFECTA) --- */
 .rifle-container {
     position: absolute;
-    /* BAJAMOS EL CONTENEDOR */
-    bottom: -220px; 
+    /* CÁLCULO: Altura total rifle (400px) - Bajada (250px) = Punta a 150px (Justo en la línea celeste) */
+    bottom: -250px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 30; 
+    z-index: 30;
     pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
 }
 
 .rifle {
     position: relative;
-    width: 100px;
-    /* REDUCIMOS ALTURA TOTAL */
-    height: 400px; 
+    width: 90px;
+    height: 400px; /* Altura total */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -134,61 +133,74 @@ h1 {
 /* 1. MIRA */
 .sight {
     width: 4px;
-    height: 8px;
-    background: #000;
-    margin-bottom: -4px;
+    height: 10px;
+    background: #111;
+    margin-bottom: -3px;
     z-index: 10;
-    border-radius: 2px;
+    border-radius: 2px 2px 0 0;
 }
 
-/* 2. PUNTA */
+/* 2. PUNTA DEL CAÑÓN */
 .barrel-tip {
-    width: 22px; 
-    height: 6px;
+    width: 24px;
+    height: 7px;
     background: #000;
     border-radius: 50%;
     margin-bottom: -2px;
     z-index: 5;
-    border: 1px solid #555;
+    border: 1px solid #333;
 }
 
-/* 3. CAÑÓN (MÁS CORTO) */
+/* 3. CAÑÓN (Estilo detallado de la 2da imagen) */
 .barrel {
-    width: 55px; /* Base ancha */
-    /* REDUCIMOS ALTURA DE CAÑÓN (Antes 240px -> Ahora 180px) */
-    height: 180px; 
+    width: 34px;
+    height: 250px;
     z-index: 3;
+    /* Degradado metálico rico */
     background: linear-gradient(90deg, 
-        var(--metal-dark) 0%, 
-        var(--metal-light) 40%, 
-        #85929e 50%,
-        var(--metal-light) 60%, 
-        var(--metal-dark) 100%);
-    
-    /* Conicidad fuerte para profundidad */
-    clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
+        var(--metal-blue) 0%, 
+        var(--metal-highlight) 30%, 
+        #cfd8dc 50%, /* Brillo fuerte */
+        var(--metal-highlight) 70%, 
+        var(--metal-blue) 100%);
+    /* Recorte sutil para profundidad sin deformar */
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
 }
 
-/* 4. GUARDAMANOS */
+/* 4. GUARDAMANOS (Madera detallada) */
 .forend {
-    width: 70px;
-    height: 80px;
-    /* Ajustamos posición para el nuevo cañón */
-    margin-top: -50px; 
+    width: 44px;
+    height: 100px;
+    margin-top: -80px;
     z-index: 4;
-    background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 50%, var(--wood-dark));
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    /* Textura de agarre */
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(0,0,0,0.1) 5px, rgba(0,0,0,0.1) 6px);
 }
 
 /* 5. CULATA */
 .stock {
-    width: 80px;
+    width: 70px;
     height: 150px;
     margin-top: -5px;
     z-index: 5;
-    background: linear-gradient(90deg, var(--wood-dark), #5d4037 40%, var(--wood-dark));
-    border-radius: 20px 20px 0 0;
+    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 40%, var(--wood-dark));
+    border-radius: 15px 15px 0 0;
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* 6. GATILLO */
+.trigger-guard {
+    position: absolute;
+    bottom: 100px;
+    width: 30px;
+    height: 40px;
+    border: 4px solid #222;
+    border-top: none;
+    border-radius: 0 0 50% 50%;
+    z-index: 6;
 }
 
 /* --- INTERFAZ --- */
@@ -237,8 +249,8 @@ h1 {
 
 .duck-container {
     position: absolute;
-    /* AJUSTE FINAL: Subimos patos a 200px para asegurar margen */
-    bottom: 200px; 
+    /* Patos pasando justo por encima de la línea de la ola */
+    bottom: 180px; 
     width: 80px;
     height: 120px;
     z-index: 3;
