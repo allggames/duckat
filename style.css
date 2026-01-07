@@ -3,8 +3,10 @@
     --curtain-red: #c0392b;
     --curtain-shadow: #922b21;
     --banner-gold: #f1c40f;
-    --wave-blue-back: #3498db;
-    --wave-blue-front: #2980b9;
+    --wave-blue-back: #29b6f6;  /* Celeste claro */
+    --wave-blue-front: #0288d1; /* Azul medio */
+    --bush-green: #43a047;
+    --bush-shadow: #2e7d32;
     --wood-dark: #3e2723;
     --wood-light: #5d4037;
     --metal-dark: #1c2833;
@@ -33,10 +35,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center bottom, #e91e63 10%, #8e44ad 60%, #2c3e50 100%);
+    background: radial-gradient(circle at center bottom, #8e24aa 10%, #4a148c 60%, #212121 100%);
     z-index: 1;
 }
 
+/* Cortinas */
 .curtain {
     position: absolute;
     top: 0;
@@ -49,6 +52,7 @@ body {
 .left-curtain { left: 0; border-right: 5px solid var(--banner-gold); }
 .right-curtain { right: 0; border-left: 5px solid var(--banner-gold); }
 
+/* Banner Superior */
 .top-banner {
     position: absolute;
     top: 0;
@@ -75,6 +79,7 @@ h1 {
     letter-spacing: 5px;
 }
 
+/* Suelo a rayas */
 .stage-floor {
     position: absolute;
     bottom: 0;
@@ -85,186 +90,141 @@ h1 {
     z-index: 25;
 }
 
-/* --- OLAS ANIMADAS CON FORMA DE OLA REAL --- */
+/* --- CAPA DE AGUA Y ARBUSTOS --- */
 .waves-layer {
     position: absolute;
-    bottom: 0;
+    bottom: 40px; /* Encima del suelo */
     width: 100%;
-    /* Aumentamos altura para que las capas se superpongan bien */
-    height: 350px; 
+    height: 250px;
     z-index: 5;
     pointer-events: none;
     overflow: hidden;
 }
 
+/* ESTILO DE OLAS HOMOGÉNEAS (Sin cortes) */
 .wave {
     position: absolute;
-    width: 200%; 
-    left: -50%;
+    width: 200%; /* El doble de ancho para el loop */
+    left: 0;
     background-repeat: repeat-x;
-    /* Esto asegura que el SVG se estire para cubrir la altura del div */
-    background-size: 100% 100%; 
+    /* Forma de ola usando círculos perfectos */
+    background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
+    background-size: 100px 200px; /* El ancho del patrón es 100px */
 }
 
-/* --- CAPA 1: Celeste Claro (Arriba - Se mueve a la derecha) --- */
-.wave-top {
-    bottom: 100px; /* Posición vertical */
-    height: 160px; /* Altura de la ola */
+/* Ola Trasera (Celeste) */
+.wave-back {
+    --wave-color: var(--wave-blue-back);
+    bottom: 80px;
+    height: 150px;
     z-index: 6;
-    
-    /* Usamos una imagen SVG incrustada para la forma de ola */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%2329b6f6' opacity='1' transform='rotate(180 600 60)'/%3E%3C/svg%3E");
-    
-    animation: moveWave 8s linear infinite;
+    animation: waveLoop 4s linear infinite;
+}
+.wave-back::after { /* Relleno sólido abajo */
+    content: ''; position: absolute; top: 50px; left: 0; width: 100%; height: 100%; background: var(--wave-color);
 }
 
-/* --- CAPA 2: Azul Oscuro (Medio - Se mueve a la izquierda) --- */
-.wave-middle {
-    bottom: 50px;
-    height: 180px;
+/* Ola Delantera (Azul) */
+.wave-front {
+    --wave-color: var(--wave-blue-front);
+    bottom: 20px;
+    height: 150px;
     z-index: 7;
-    
-    /* Mismo SVG pero con color azul oscuro (#0277bd) */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%230277bd' opacity='1' transform='rotate(180 600 60)'/%3E%3C/svg%3E");
-    
-    /* Animación inversa y con diferente duración para efecto paralaje */
-    animation: moveWave 10s linear infinite reverse;
+    animation: waveLoop 5s linear infinite reverse;
+}
+.wave-front::after { /* Relleno sólido abajo */
+    content: ''; position: absolute; top: 50px; left: 0; width: 100%; height: 100%; background: var(--wave-color);
 }
 
-/* --- CAPA 3: Rosa (Abajo - Se mueve a la derecha) --- */
-.wave-bottom {
-    bottom: -20px; /* Un poco hundida para tapar el borde inferior */
-    height: 180px;
-    z-index: 8;
-    
-    /* Mismo SVG pero con color rosa (#ec407a) */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23ec407a' opacity='1' transform='rotate(180 600 60)'/%3E%3C/svg%3E");
-    
-    animation: moveWave 6s linear infinite;
+@keyframes waveLoop {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100px); } /* Se mueve exactamente el tamaño del patrón */
 }
 
-/* Relleno sólido para la parte inferior absoluta */
-.waves-layer::after {
-    content: '';
+/* --- ARBUSTOS (Estilo Cartoon) --- */
+.bush {
     position: absolute;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50px; /* Altura suficiente para tapar cualquier hueco abajo */
-    background-color: #ec407a;
-    z-index: 8;
+    z-index: 15; /* Delante del agua, detrás del rifle */
+    width: 150px;
+    height: 80px;
+    background: var(--bush-green);
+    border-radius: 100px 100px 0 0;
+    box-shadow: inset -10px -5px rgba(0,0,0,0.2);
 }
 
-/* Animación genérica de movimiento horizontal */
-@keyframes moveWave {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        /* Movemos el 50% del ancho total (que es el 100% de la pantalla) */
-        transform: translateX(50%); 
-    }
+/* Arbusto Izquierdo */
+.bush-left {
+    left: -20px;
 }
-/* --- ANIMACIONES --- */
-@keyframes moveRight {
-    from { transform: translateX(0); }
-    to { transform: translateX(110px); } /* Debe coincidir con el ancho del background-size aprox */
+/* Bolitas extra para darle forma irregular al arbusto izquierdo */
+.bush-left::before {
+    content: ''; position: absolute; bottom: 0; right: -40px;
+    width: 80px; height: 60px; background: var(--bush-green);
+    border-radius: 50%;
 }
-
-@keyframes moveLeft {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100px); }
+.bush-left::after {
+    content: ''; position: absolute; bottom: 20px; left: 30px;
+    width: 90px; height: 90px; background: var(--bush-green);
+    border-radius: 50%;
 }
 
-/* --- DEFINICIÓN DE MOVIMIENTOS --- */
-@keyframes moveRight {
-    from { transform: translateX(0); }
-    to { transform: translateX(60px); } /* Se mueve el tamaño exacto de una onda para que el bucle sea perfecto */
+/* Arbusto Derecho */
+.bush-right {
+    right: -20px;
+}
+.bush-right::before {
+    content: ''; position: absolute; bottom: 0; left: -50px;
+    width: 90px; height: 70px; background: var(--bush-green);
+    border-radius: 50%;
+}
+.bush-right::after {
+    content: ''; position: absolute; bottom: 10px; right: 40px;
+    width: 100px; height: 100px; background: var(--bush-green);
+    border-radius: 50%;
 }
 
-@keyframes moveLeft {
-    from { transform: translateX(0); }
-    to { transform: translateX(-60px); }
-}
-    
-/* --- RIFLE (CALCULADO MILIMÉTRICAMENTE) --- */
+
+/* --- RIFLE (Punta en la línea de agua) --- */
 .rifle-container {
     position: absolute;
-    /* Mantenemos esta base para ver la madera */
     bottom: -180px; 
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
     pointer-events: none;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
 }
 
 .rifle {
     position: relative;
     width: 100px;
-    /* REDUCIMOS ALTURA TOTAL a 420px */
-    /* Esto baja el tope del arma exactamente a la línea de las olas */
     height: 420px; 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* 1. MIRA */
-.sight {
-    width: 4px;
-    height: 8px;
-    background: #000;
-    margin-bottom: -4px;
-    z-index: 10;
-    border-radius: 2px;
-}
+.sight { width: 4px; height: 8px; background: #000; margin-bottom: -4px; z-index: 10; border-radius: 2px; }
+.barrel-tip { width: 22px; height: 6px; background: #000; border-radius: 50%; margin-bottom: -2px; z-index: 5; border: 1px solid #555; }
 
-/* 2. PUNTA */
-.barrel-tip {
-    width: 22px; 
-    height: 6px;
-    background: #000;
-    border-radius: 50%;
-    margin-bottom: -2px;
-    z-index: 5;
-    border: 1px solid #555;
-}
-
-/* 3. CAÑÓN (MÁS CORTO) */
 .barrel {
     width: 55px; 
-    /* AJUSTE: Altura 130px. Corto y robusto. */
     height: 130px; 
     z-index: 3;
-    background: linear-gradient(90deg, 
-        var(--metal-dark) 0%, 
-        var(--metal-light) 40%, 
-        #85929e 50%,
-        var(--metal-light) 60%, 
-        var(--metal-dark) 100%);
-    
-    /* Conicidad fuerte */
+    background: linear-gradient(90deg, var(--metal-dark) 0%, var(--metal-light) 40%, #85929e 50%, var(--metal-light) 60%, var(--metal-dark) 100%);
     clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
 }
 
-/* 4. GUARDAMANOS */
 .forend {
-    width: 70px;
-    height: 80px;
-    margin-top: -50px; 
-    z-index: 4;
+    width: 70px; height: 80px; margin-top: -50px; z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
     clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
-/* 5. CULATA */
 .stock {
-    width: 80px;
-    height: 150px;
-    margin-top: -5px;
-    z-index: 5;
+    width: 80px; height: 150px; margin-top: -5px; z-index: 5;
     background: linear-gradient(90deg, var(--wood-dark), #5d4037 40%, var(--wood-dark));
     border-radius: 20px 20px 0 0;
 }
@@ -286,38 +246,28 @@ h1 {
 
 #start-btn {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--banner-gold);
-    color: #c0392b;
-    padding: 20px 50px;
-    font-size: 2.5rem;
-    border: 4px solid #fff;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 200;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    font-weight: bold;
-    text-transform: uppercase;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: var(--banner-gold); color: #c0392b;
+    padding: 20px 50px; font-size: 2.5rem;
+    border: 4px solid #fff; border-radius: 10px; cursor: pointer;
+    z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    font-weight: bold; text-transform: uppercase;
 }
 #start-btn:hover { background: #f39c12; transform: translate(-50%, -50%) scale(1.05); }
 
-/* --- PATOS --- */
+/* --- PATOS (Ajustados al carril de agua) --- */
 #ducks-layer {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: 4;
 }
 
 .duck-container {
     position: absolute;
-    bottom: 180px; 
+    /* AJUSTADO: Más abajo (140px) para que parezcan flotar en el agua celeste */
+    bottom: 140px; 
     width: 80px;
-    height: 120px;
+    height: 150px; /* Más alto para acomodar el palo largo */
     z-index: 3;
     animation: moveDuck linear forwards;
 }
@@ -328,7 +278,8 @@ h1 {
     left: 50%;
     transform: translateX(-50%);
     width: 6px;
-    height: 80px;
+    /* Palo más largo para que se hunda en el agua */
+    height: 100px; 
     background: #5d4037;
     border-radius: 0 0 3px 3px;
 }
