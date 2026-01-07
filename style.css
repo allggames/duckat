@@ -109,12 +109,11 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE (AJUSTADO: PUNTA MÁS BAJA) --- */
+/* --- RIFLE (AJUSTADO: MÁS CORTO Y BAJO) --- */
 .rifle-container {
     position: absolute;
-    /* CAMBIO: Bajamos de -220px a -260px. */
-    /* Esto hunde la punta lo suficiente para no tocar a los patos. */
-    bottom: -260px; 
+    /* BAJAMOS MÁS EL ARMA para ocultar la base */
+    bottom: -180px; 
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
@@ -125,7 +124,7 @@ h1 {
 .rifle {
     position: relative;
     width: 100px;
-    height: 400px; 
+    height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -141,10 +140,10 @@ h1 {
     border-radius: 2px;
 }
 
-/* 2. PUNTA */
+/* 2. PUNTA DEL CAÑÓN */
 .barrel-tip {
-    width: 22px; 
-    height: 6px;
+    width: 18px; 
+    height: 5px;
     background: #000;
     border-radius: 50%;
     margin-bottom: -2px;
@@ -152,10 +151,11 @@ h1 {
     border: 1px solid #555;
 }
 
-/* 3. CAÑÓN */
+/* 3. CAÑÓN (MÁS CORTO) */
 .barrel {
-    width: 55px; 
-    height: 180px; 
+    width: 50px; /* Ancho base */
+    /* CAMBIO CLAVE: Reducimos altura de 380px a 240px */
+    height: 240px; 
     z-index: 3;
     background: linear-gradient(90deg, 
         var(--metal-dark) 0%, 
@@ -164,23 +164,24 @@ h1 {
         var(--metal-light) 60%, 
         var(--metal-dark) 100%);
     
+    /* Mantenemos la forma cónica que te gustó */
     clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
 }
 
 /* 4. GUARDAMANOS */
 .forend {
-    width: 70px;
-    height: 80px;
-    margin-top: -50px; 
+    width: 60px;
+    height: 90px;
+    margin-top: -60px; /* Ajustado al nuevo largo */
     z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
 /* 5. CULATA */
 .stock {
-    width: 80px;
+    width: 70px;
     height: 150px;
     margin-top: -5px;
     z-index: 5;
@@ -234,7 +235,8 @@ h1 {
 
 .duck-container {
     position: absolute;
-    bottom: 200px; 
+    /* CAMBIO: Subimos un poco los patos para asegurar que no chocan con el arma */
+    bottom: 180px; 
     width: 80px;
     height: 120px;
     z-index: 3;
