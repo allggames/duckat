@@ -91,27 +91,27 @@ h1 {
     z-index: 6;
 }
 
-/* --- ESCOPETAS REALISTAS Y MÁS ABAJO --- */
+/* --- ESCOPETAS FINAS Y LARGAS (Estilo de imagen_1.png) --- */
 .guns-container {
     position: absolute;
-    /* CAMBIO CLAVE: -120px para bajarlas mucho más */
+    /* Hundidas para que se vea solo el cañón y la culata */
     bottom: -120px; 
     left: 0;
     width: 100%;
-    height: 400px; /* Aumentamos altura del contenedor */
+    height: 500px; /* Aumentamos altura del contenedor */
     display: flex;
     justify-content: center;
-    align-items: flex-end; /* Alineadas al fondo */
+    align-items: flex-end;
     z-index: 30;
     pointer-events: none;
-    gap: 150px; /* Más espacio entre ellas */
+    gap: 150px;
 }
 
-/* Base del rifle */
+/* Base del rifle (Mucho más fino) */
 .rifle {
     position: relative;
-    width: 60px; /* Más finas */
-    height: 500px; /* Más largas */
+    width: 40px; 
+    height: 600px; /* Mucho más largo */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -119,7 +119,7 @@ h1 {
     transform-origin: bottom center;
 }
 
-/* 1. La Mira (Puntita) */
+/* 1. La Mira */
 .rifle-sight {
     width: 4px;
     height: 15px;
@@ -128,64 +128,48 @@ h1 {
     margin-bottom: -5px;
 }
 
-/* 2. El Cañón (Metal Azulado como la referencia) */
+/* 2. El Cañón (Más largo y azulado) */
 .rifle-barrel {
     width: 28px;
-    height: 350px; /* Cañón bien largo */
+    height: 400px; /* Cañón muy largo */
     z-index: 3;
     /* Degradado azul metálico */
-    background: linear-gradient(90deg, 
-        #1a237e 0%,   /* Azul oscuro borde */
-        #5c6bc0 30%,  /* Azul claro brillo */
-        #7986cb 50%,  /* Brillo central */
-        #3949ab 70%, 
-        #1a237e 100%  /* Azul oscuro borde */
-    );
+    background: linear-gradient(90deg, #1a237e 0%, #5c6bc0 30%, #7986cb 50%, #3949ab 70%, #1a237e 100%);
     border: 1px solid #000;
-    /* Ligera forma cónica */
+    /* Forma cónica sutil */
     clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
 }
 
-/* 3. Guardamanos (Madera de conexión) */
+/* 3. Guardamanos (Más fino y pequeño) */
 .rifle-wood-grip {
     width: 32px;
     height: 60px;
-    margin-top: -20px; /* Conecta con el cañón */
+    margin-top: -20px;
     z-index: 4;
     background: linear-gradient(90deg, #3e2723 0%, #8d6e63 40%, #4e342e 100%);
     box-shadow: 0 5px 5px rgba(0,0,0,0.5);
 }
 
-/* 4. Culata (Parte trasera) */
+/* 4. Culata (Más fina y larga) */
 .rifle-stock {
-    width: 45px;
-    height: 150px;
+    width: 40px; /* Más fina */
+    height: 200px; /* Más larga */
     margin-top: -5px;
     z-index: 5;
-    /* Forma más recta y menos redonda */
     border-radius: 5px 5px 0 0;
     background: linear-gradient(90deg, #3e2723 0%, #795548 30%, #5d4037 60%, #281815 100%);
     box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
 }
 
-/* --- POSICIONES (Ajustadas para que no tapen tanto) --- */
-
-/* Escopeta Central */
+/* Posiciones */
 .rifle-center { 
     z-index: 32; 
-    transform: scale(1.0); /* Tamaño normal */
-    margin-bottom: -20px; /* Un pelín más hundida */
+    margin-bottom: -20px;
 }
-
-/* Escopeta Izquierda */
 .rifle-left { 
-    /* Rotamos y bajamos un poco */
     transform: rotate(25deg) translateY(30px); 
 }
-
-/* Escopeta Derecha */
 .rifle-right { 
-    /* Rotamos y bajamos un poco */
     transform: rotate(-25deg) translateY(30px); 
 }
 
@@ -231,6 +215,7 @@ h1 {
     to { left: 100vw; }
 }
 
+/* Mensaje de instrucciones */
 #start-msg {
     position: absolute;
     top: 50%;
