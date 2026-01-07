@@ -18,9 +18,8 @@ function spawnDuck() {
     const duckContainer = document.createElement('div');
     duckContainer.classList.add('duck-container');
     
-    // ALTURA AJUSTADA: Rango más pequeño para que siempre estén "en el agua"
-    // Entre 130px y 170px desde abajo
-    const randomHeight = Math.floor(Math.random() * 40) + 130;
+    // Altura controlada para que queden en el carril de agua
+    const randomHeight = Math.floor(Math.random() * 40) + 160;
     duckContainer.style.bottom = randomHeight + 'px';
 
     const randomSpeed = (Math.random() * 4) + 3;
