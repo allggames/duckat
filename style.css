@@ -1,17 +1,18 @@
 /* --- ESTILOS GENERALES --- */
 :root {
-    --curtain-red: #c0392b;
-    --banner-gold: #f1c40f;
+    --curtain-red: #b71c1c; /* Rojo más profundo */
+    --curtain-shadow: #7f0000;
+    --banner-gold: #ffca28;
     
-    /* Colores Atardecer Rosa */
-    --bg-sun-center: #fff0f5; 
-    --bg-ray-light: #f48fb1;  
-    --bg-ray-dark: #ec407a;   
+    /* --- COLORES DE FONDO (ATARDECER OSCURO) --- */
+    --bg-sun-center: #f8bbd0; /* Rosa pálido centro */
+    --bg-ray-light: #ec407a;  /* Rosa intenso */
+    --bg-ray-dark: #880e4f;   /* Violeta/Burdeos oscuro */
 
-    /* Elementos */
-    --wave-back: #4fc3f7;  /* Celeste */
-    --wave-front: #0288d1; /* Azul */
-    --bush-green: #43a047;
+    /* --- COLORES DE AGUA Y ELEMENTOS --- */
+    --wave-back: #42a5f5;  /* Celeste vibrante */
+    --wave-front: #1e88e5; /* Azul mar */
+    --bush-green: #2e7d32;
     --wood-dark: #3e2723;
     --wood-light: #5d4037;
     --metal-dark: #263238;
@@ -33,16 +34,17 @@ body {
     overflow: hidden;
 }
 
-/* --- 1. FONDO: SOL ATARDECER --- */
+/* --- 1. FONDO: SOL ATARDECER OSCURO --- */
 .stage-background {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     z-index: 1;
-    /* Efecto de rayos de sol */
     background-image: 
-        radial-gradient(circle at 50% 80%, var(--bg-sun-center) 10%, transparent 60%),
+        /* Sol central */
+        radial-gradient(circle at 50% 90%, var(--bg-sun-center) 5%, transparent 60%),
+        /* Rayos */
         repeating-conic-gradient(
-            from 0deg at 50% 80%, 
+            from 0deg at 50% 90%, 
             var(--bg-ray-light) 0deg 15deg, 
             var(--bg-ray-dark) 15deg 30deg
         );
@@ -51,9 +53,9 @@ body {
 /* --- CORTINAS Y BANNER --- */
 .curtain {
     position: absolute; top: 0; height: 100%; width: 15%;
-    background: repeating-linear-gradient(90deg, var(--curtain-red), var(--curtain-red) 40px, #922b21 40px, #922b21 80px);
+    background: repeating-linear-gradient(90deg, var(--curtain-red), var(--curtain-red) 40px, var(--curtain-shadow) 40px, var(--curtain-shadow) 80px);
     z-index: 20;
-    box-shadow: 5px 0 20px rgba(0,0,0,0.6);
+    box-shadow: 5px 0 20px rgba(0,0,0,0.8);
 }
 .left-curtain { left: 0; border-right: 5px solid var(--banner-gold); }
 .right-curtain { right: 0; border-left: 5px solid var(--banner-gold); }
@@ -64,75 +66,71 @@ body {
     border: 5px solid var(--banner-gold); border-top: none;
     border-radius: 0 0 50% 50% / 0 0 30px 30px;
     display: flex; justify-content: center; align-items: center;
-    z-index: 21; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    z-index: 21; box-shadow: 0 10px 20px rgba(0,0,0,0.6);
 }
 
 h1 {
     margin: 0; color: var(--banner-gold); font-size: 4rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); letter-spacing: 5px;
+    text-shadow: 3px 3px 0px #000; letter-spacing: 5px;
 }
 
 .stage-floor {
     position: absolute; bottom: 0; width: 100%; height: 40px;
-    background: repeating-linear-gradient(90deg, #d35400, #d35400 50px, #e67e22 50px, #e67e22 100px);
+    background: repeating-linear-gradient(90deg, #ef6c00, #ef6c00 50px, #e65100 50px, #e65100 100px);
     border-top: 5px solid var(--banner-gold); z-index: 25;
 }
 
-/* --- 2. OLAS Y CAPAS --- */
+/* --- 2. OLAS (CORREGIDAS: REDONDAS CON PUNTAS) --- */
 .waves-layer {
     position: absolute; bottom: 40px; width: 100%; pointer-events: none; overflow: hidden;
 }
-.back-layer { height: 250px; z-index: 2; }
-.front-layer { height: 180px; z-index: 5; }
+.back-layer { height: 260px; z-index: 2; }
+.front-layer { height: 190px; z-index: 5; }
 
 .wave {
     position: absolute; width: 200%; left: 0; bottom: 0; height: 100%;
     background-repeat: repeat-x;
-    /* Olas suaves y redondas */
-    background-image: radial-gradient(circle at 50% 0, transparent 45%, var(--wave-color) 46%);
-    background-size: 100px 50px;
+    
+    /* EL TRUCO PARA "REDONDEADAS CON PUNTITAS": */
+    /* Círculos transparentes que "comen" la parte superior del bloque de color */
+    /* Esto deja picos afilados hacia arriba entre los círculos */
+    background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
+    background-size: 100px 200px; /* El ancho del patrón es 100px */
 }
 
 .wave-back {
     --wave-color: var(--wave-back);
-    animation: waveLoop 10s linear infinite;
+    animation: waveLoop 8s linear infinite;
 }
-/* Relleno para la ola de atrás */
-.wave-back::after {
-    content: ''; position: absolute; top: 25px; left: 0; width: 100%; height: 100%; background: var(--wave-back);
-}
-
 .wave-front {
     --wave-color: var(--wave-front);
-    animation: waveLoop 8s linear infinite reverse;
-}
-/* Relleno para la ola de adelante */
-.wave-front::after {
-    content: ''; position: absolute; top: 25px; left: 0; width: 100%; height: 100%; background: var(--wave-front);
+    animation: waveLoop 6s linear infinite reverse;
 }
 
+/* ANIMACIÓN FLUIDA (Sin cortes) */
 @keyframes waveLoop {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100px); }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100px); } /* Debe coincidir con el ancho del background-size */
 }
 
 /* --- 3. ARBUSTOS --- */
 .bush {
     position: absolute; bottom: 0; z-index: 10;
-    width: 150px; height: 90px;
+    width: 160px; height: 100px;
     background: var(--bush-green);
-    border-radius: 80px 80px 0 0;
+    border-radius: 100px 100px 0 0;
     box-shadow: inset -5px -10px 20px rgba(0,0,0,0.3);
+    border: 3px solid #1b5e20;
 }
-.bush-left { left: 0; border-bottom-left-radius: 0; }
-.bush-right { right: 0; border-bottom-right-radius: 0; }
+.bush-left { left: -30px; }
+.bush-right { right: -30px; }
 
-/* --- 4. RIFLE (Ajustado) --- */
+/* --- 4. RIFLE (PUNTA CASI RECTA) --- */
 .rifle-container {
     position: absolute;
     bottom: -180px; left: 50%; transform: translateX(-50%);
     z-index: 30; pointer-events: none;
-    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
 }
 
 .rifle {
@@ -140,27 +138,29 @@ h1 {
     display: flex; flex-direction: column; align-items: center;
 }
 
-.sight { width: 4px; height: 10px; background: #000; margin-bottom: -3px; z-index: 10; }
+.sight { width: 4px; height: 8px; background: #000; margin-bottom: -3px; z-index: 10; border-radius: 2px; }
 
-/* Punta menos cónica, más recta */
 .barrel-tip {
-    width: 24px; height: 6px; background: #000;
+    width: 28px; /* Casi igual de ancha que el cañón */
+    height: 6px; background: #000;
     border-radius: 50%; margin-bottom: -2px; z-index: 5; border: 1px solid #444;
 }
 
 .barrel {
-    width: 45px; /* Más fino */
-    height: 160px; /* Corto para no tapar */
-    z-index: 3;
+    width: 45px; /* Cañón */
+    height: 160px; z-index: 3;
     background: linear-gradient(90deg, var(--metal-dark), var(--metal-light) 40%, var(--metal-light) 60%, var(--metal-dark));
-    /* Clip-path más sutil (menos punta) */
-    clip-path: polygon(25% 0, 75% 0, 100% 100%, 0% 100%);
+    
+    /* CAMBIO: Clip-path mucho más ancho arriba para que sea menos cónico */
+    /* 10% y 90% es casi recto, pero con un toque de profundidad */
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
 }
 
 .forend {
     width: 60px; height: 90px; margin-top: -50px; z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+    /* Madera también más recta */
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
@@ -173,8 +173,8 @@ h1 {
 /* --- INTERFAZ --- */
 #score-board {
     position: absolute; top: 150px; left: 50%; transform: translateX(-50%);
-    color: white; font-size: 2rem; background: rgba(0,0,0,0.7);
-    padding: 10px 30px; border-radius: 20px; border: 2px solid var(--banner-gold); z-index: 100;
+    color: white; font-size: 2rem; background: rgba(0,0,0,0.8);
+    padding: 10px 30px; border-radius: 20px; border: 3px solid var(--banner-gold); z-index: 100;
 }
 
 #start-btn {
@@ -183,9 +183,9 @@ h1 {
     padding: 20px 50px; font-size: 2.5rem;
     border: 4px solid #fff; border-radius: 10px; cursor: pointer;
     z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    font-weight: bold; text-transform: uppercase;
+    font-weight: 800; text-transform: uppercase;
 }
-#start-btn:hover { background: #f39c12; transform: translate(-50%, -50%) scale(1.05); }
+#start-btn:hover { background: #ffca28; transform: translate(-50%, -50%) scale(1.05); color: #b71c1c; }
 
 /* --- PATOS --- */
 #ducks-layer {
@@ -193,8 +193,7 @@ h1 {
 }
 
 .duck-container {
-    position: absolute; bottom: 170px; /* Flotando en el agua de atrás */
-    width: 80px; height: 150px; z-index: 3;
+    position: absolute; bottom: 170px; width: 80px; height: 150px; z-index: 3;
     animation: moveDuck linear forwards;
 }
 
@@ -205,8 +204,7 @@ h1 {
 
 .duck-body {
     position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    font-size: 60px; line-height: 1; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
-    cursor: crosshair;
+    font-size: 60px; line-height: 1; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3)); cursor: crosshair;
 }
 
 .duck-hit {
