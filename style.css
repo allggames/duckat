@@ -85,12 +85,13 @@ h1 {
     z-index: 25;
 }
 
-/* --- OLAS ANIMADAS ESTILO CARTOON --- */
+/* --- OLAS ANIMADAS CON FORMA DE OLA REAL --- */
 .waves-layer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 350px; /* Aumentamos altura para que se vean bien las capas */
+    /* Aumentamos altura para que las capas se superpongan bien */
+    height: 350px; 
     z-index: 5;
     pointer-events: none;
     overflow: hidden;
@@ -101,65 +102,69 @@ h1 {
     width: 200%; 
     left: -50%;
     background-repeat: repeat-x;
+    /* Esto asegura que el SVG se estire para cubrir la altura del div */
+    background-size: 100% 100%; 
 }
 
-/* --- CAPA 1: Celeste Claro (Arriba) --- */
+/* --- CAPA 1: Celeste Claro (Arriba - Se mueve a la derecha) --- */
 .wave-top {
-    bottom: 120px; /* La subimos más */
-    height: 180px;
+    bottom: 100px; /* Posición vertical */
+    height: 160px; /* Altura de la ola */
     z-index: 6;
     
-    /* El truco para olas redondas: Círculos grandes repetidos */
-    background-image: radial-gradient(circle at 50% 100%, #29b6f6 55%, transparent 56%);
-    background-size: 120px 240px; /* Olas más anchas y altas */
-    background-position: bottom;
+    /* Usamos una imagen SVG incrustada para la forma de ola */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%2329b6f6' opacity='1' transform='rotate(180 600 60)'/%3E%3C/svg%3E");
     
-    /* Animación lenta hacia la derecha */
-    animation: moveRight 6s linear infinite;
+    animation: moveWave 8s linear infinite;
 }
-/* Relleno sólido para esta capa no es necesario porque los círculos son grandes, 
-   pero si quieres un fondo sólido detrás, puedes añadirlo en el HTML o con ::after */
 
-
-/* --- CAPA 2: Azul Oscuro (Medio) --- */
+/* --- CAPA 2: Azul Oscuro (Medio - Se mueve a la izquierda) --- */
 .wave-middle {
-    bottom: 60px;
-    height: 150px;
+    bottom: 50px;
+    height: 180px;
     z-index: 7;
     
-    background-image: radial-gradient(circle at 50% 100%, #0277bd 55%, transparent 56%);
-    background-size: 100px 200px; /* Un poco más pequeñas que las de arriba */
+    /* Mismo SVG pero con color azul oscuro (#0277bd) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%230277bd' opacity='1' transform='rotate(180 600 60)'/%3E%3C/svg%3E");
     
-    /* Animación hacia la izquierda */
-    animation: moveLeft 7s linear infinite;
+    /* Animación inversa y con diferente duración para efecto paralaje */
+    animation: moveWave 10s linear infinite reverse;
 }
 
-
-/* --- CAPA 3: Rosa/Morado (Abajo - Primer plano) --- */
+/* --- CAPA 3: Rosa (Abajo - Se mueve a la derecha) --- */
 .wave-bottom {
-    bottom: -20px; /* Un poco hundida */
-    height: 140px;
+    bottom: -20px; /* Un poco hundida para tapar el borde inferior */
+    height: 180px;
     z-index: 8;
     
-    background-image: radial-gradient(circle at 50% 100%, #ec407a 55%, transparent 56%);
-    background-size: 110px 220px;
+    /* Mismo SVG pero con color rosa (#ec407a) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' fill='%23ec407a' opacity='1' transform='rotate(180 600 60)'/%3E%3C/svg%3E");
     
-    /* Animación rápida hacia la derecha */
-    animation: moveRight 5s linear infinite;
+    animation: moveWave 6s linear infinite;
 }
 
-/* Relleno sólido abajo del todo para que no se vea hueco al moverse */
+/* Relleno sólido para la parte inferior absoluta */
 .waves-layer::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 40px;
-    background-color: #ec407a; /* Mismo color que la ola de abajo */
+    height: 50px; /* Altura suficiente para tapar cualquier hueco abajo */
+    background-color: #ec407a;
     z-index: 8;
 }
 
+/* Animación genérica de movimiento horizontal */
+@keyframes moveWave {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Movemos el 50% del ancho total (que es el 100% de la pantalla) */
+        transform: translateX(50%); 
+    }
+}
 /* --- ANIMACIONES --- */
 @keyframes moveRight {
     from { transform: translateX(0); }
