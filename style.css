@@ -5,10 +5,10 @@
     --banner-gold: #f1c40f;
     --wave-blue-back: #3498db;
     --wave-blue-front: #2980b9;
-    --wood-dark: #5d4037;
-    --wood-light: #8d6e63;
-    --metal-blue: #2c3e50; /* Azul oscuro metálico */
-    --metal-highlight: #78909c; /* Brillo metálico */
+    --wood-dark: #3e2723;
+    --wood-light: #5d4037;
+    --metal-dark: #1c2833;
+    --metal-light: #566573;
 }
 
 body {
@@ -109,106 +109,84 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE CENTRAL (PUNTO MEDIO DE PROFUNDIDAD) --- */
+/* --- RIFLE (AJUSTADO: MÁS CORTO Y BAJO) --- */
 .rifle-container {
     position: absolute;
-    /* Ajustado para que se vea el cuerpo pero no flote */
-    bottom: -140px; 
+    /* BAJAMOS MÁS EL ARMA para ocultar la base */
+    bottom: -180px; 
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
     pointer-events: none;
+    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
 }
 
 .rifle {
     position: relative;
-    width: 90px;
-    height: 550px; /* Rifle largo */
+    width: 100px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
 }
 
 /* 1. MIRA */
 .sight {
-    width: 6px;
-    height: 12px;
-    background: #111;
+    width: 4px;
+    height: 8px;
+    background: #000;
     margin-bottom: -4px;
-    z-index: 5;
-    border-radius: 2px 2px 0 0;
+    z-index: 10;
+    border-radius: 2px;
 }
 
-/* 2. PUNTA DEL CAÑÓN (El agujero) */
+/* 2. PUNTA DEL CAÑÓN */
 .barrel-tip {
-    width: 26px; /* Un poco más estrecho que el cañón base */
-    height: 8px;
+    width: 18px; 
+    height: 5px;
     background: #000;
     border-radius: 50%;
     margin-bottom: -2px;
-    z-index: 4;
-    border: 1px solid #444;
+    z-index: 5;
+    border: 1px solid #555;
 }
 
-/* 3. CAÑÓN (Profundidad sutil) */
+/* 3. CAÑÓN (MÁS CORTO) */
 .barrel {
-    width: 36px;
-    height: 380px; /* Largo */
+    width: 50px; /* Ancho base */
+    /* CAMBIO CLAVE: Reducimos altura de 380px a 240px */
+    height: 240px; 
     z-index: 3;
-    /* Degradado metálico realista */
     background: linear-gradient(90deg, 
-        var(--metal-blue) 0%, 
-        var(--metal-highlight) 35%, 
-        #eceff1 50%, /* Brillo central fuerte */
-        var(--metal-highlight) 65%, 
-        var(--metal-blue) 100%);
+        var(--metal-dark) 0%, 
+        var(--metal-light) 40%, 
+        #85929e 50%,
+        var(--metal-light) 60%, 
+        var(--metal-dark) 100%);
     
-    /* AQUI ESTÁ EL TRUCO: */
-    /* Hacemos que la parte de arriba sea un poco más estrecha (20%) que la de abajo */
-    /* Esto da profundidad sin deformar */
-    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+    /* Mantenemos la forma cónica que te gustó */
+    clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
 }
 
-/* 4. GUARDAMANOS (Madera delantera) */
+/* 4. GUARDAMANOS */
 .forend {
-    width: 46px;
-    height: 120px;
-    margin-top: -100px; /* Se superpone bien al cañón */
+    width: 60px;
+    height: 90px;
+    margin-top: -60px; /* Ajustado al nuevo largo */
     z-index: 4;
-    
-    /* Textura madera */
-    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 50%, var(--wood-dark));
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-    
-    /* También lo afinamos un poco arriba para seguir la línea */
+    background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
     clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
-/* 5. CULATA (Cuerpo principal) */
+/* 5. CULATA */
 .stock {
     width: 70px;
-    height: 200px;
+    height: 150px;
     margin-top: -5px;
     z-index: 5;
-    
-    background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 40%, var(--wood-dark));
-    /* Forma redondeada arriba */
-    border-radius: 15px 15px 0 0;
-    box-shadow: inset 0 10px 20px rgba(255,255,255,0.1);
-}
-
-/* 6. GATILLO (Detalle visual abajo) */
-.trigger-guard {
-    position: absolute;
-    bottom: 120px;
-    width: 30px;
-    height: 40px;
-    border: 4px solid #111;
-    border-top: none;
-    border-radius: 0 0 50% 50%;
-    z-index: 6;
-    background: rgba(0,0,0,0.3);
+    background: linear-gradient(90deg, var(--wood-dark), #5d4037 40%, var(--wood-dark));
+    border-radius: 20px 20px 0 0;
 }
 
 /* --- INTERFAZ --- */
@@ -257,7 +235,8 @@ h1 {
 
 .duck-container {
     position: absolute;
-    bottom: 150px;
+    /* CAMBIO: Subimos un poco los patos para asegurar que no chocan con el arma */
+    bottom: 180px; 
     width: 80px;
     height: 120px;
     z-index: 3;
