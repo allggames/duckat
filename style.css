@@ -1,16 +1,19 @@
 /* --- ESTILOS GENERALES --- */
 :root {
     --curtain-red: #c0392b;
-    --curtain-shadow: #922b21;
     --banner-gold: #f1c40f;
-    --wave-blue-back: #29b6f6;  /* Celeste claro */
-    --wave-blue-front: #0288d1; /* Azul medio */
-    --bush-green: #43a047;
-    --bush-shadow: #2e7d32;
-    --wood-dark: #3e2723;
-    --wood-light: #5d4037;
-    --metal-dark: #1c2833;
-    --metal-light: #566573;
+    
+    /* NUEVOS COLORES PARA EL FONDO ROSA */
+    --bg-sun-center: #fff0f5; /* Centro brillante casi blanco/rosa */
+    --bg-ray-light: #f48fb1;  /* Rayo rosa claro */
+    --bg-ray-dark: #ec407a;   /* Rayo rosa más oscuro */
+
+    /* Colores del resto de la escena (se mantienen igual) */
+    --wave-back: #4fc3f7;
+    --wave-front: #0288d1;
+    --bush-green: #2e7d32;
+    --wood-color: #5d4037;
+    --metal-color: #37474f;
 }
 
 body {
@@ -29,14 +32,26 @@ body {
 }
 
 /* --- FONDO Y ESCENARIO --- */
+/* --- 1. FONDO: SOL CON DESTELLOS ROSAS --- */
 .stage-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center bottom, #8e24aa 10%, #4a148c 60%, #212121 100%);
     z-index: 1;
+    
+    /* Usamos dos capas de fondo: */
+    background-image: 
+        /* Capa 1 (Arriba): Un brillo circular central para el sol */
+        radial-gradient(circle at 50% 70%, var(--bg-sun-center) 10%, transparent 50%),
+        
+        /* Capa 2 (Abajo): Los rayos cónicos repetidos */
+        repeating-conic-gradient(
+            from 0deg at 50% 70%, /* Centro del sol en la parte baja */
+            var(--bg-ray-light) 0deg 15deg,  /* Primer color de 0 a 15 grados */
+            var(--bg-ray-dark) 15deg 30deg   /* Segundo color de 15 a 30 grados */
+        );
 }
 
 /* Cortinas */
