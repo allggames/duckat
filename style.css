@@ -7,8 +7,8 @@
     --wave-blue-front: #2980b9;
     --wood-dark: #5d4037;
     --wood-light: #8d6e63;
-    --metal-blue: #3f51b5;
-    --metal-highlight: #7986cb;
+    --metal-blue: #2c3e50; /* Metal más oscuro y realista */
+    --metal-highlight: #95a5a6;
 }
 
 body {
@@ -109,86 +109,97 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE CENTRAL (AJUSTADO PARA VER EL CUERPO) --- */
+/* --- RIFLE CENTRAL CON PERSPECTIVA --- */
 .rifle-container {
     position: absolute;
-    /* CAMBIO AQUÍ: -160px deja ver la madera pero oculta el gatillo */
-    bottom: -160px; 
+    bottom: -80px; /* Lo subimos un poco para ver más la base */
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
     pointer-events: none;
+    /* CLAVE 1: Añadimos perspectiva al contenedor padre */
+    perspective: 1000px;
 }
 
 .rifle {
     position: relative;
-    width: 80px;
-    height: 500px;
+    width: 100px; /* Un poco más ancho en la base */
+    height: 300px; /* Altura total menor */
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    /* CLAVE 2: Rotamos el rifle en el eje X para inclinarlo hacia atrás */
+    transform: rotateX(60deg);
+    transform-origin: bottom center; /* La rotación es desde la base */
+    filter: drop-shadow(0 15px 10px rgba(0,0,0,0.4));
 }
 
 .sight {
-    width: 6px;
-    height: 15px;
+    width: 4px;
+    height: 10px;
     background: #111;
-    margin-bottom: -5px;
+    margin-bottom: -2px;
     z-index: 5;
     border-radius: 2px 2px 0 0;
 }
 
 .barrel-tip {
-    width: 34px;
-    height: 15px;
+    /* CLAVE 3: Punta ovalada para simular el agujero visto desde ángulo */
+    width: 20px;
+    height: 8px;
     background: #000;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    margin-bottom: -2px;
+    border-radius: 50%;
+    margin-bottom: -1px;
     z-index: 4;
+    box-shadow: inset 0 0 2px rgba(255,255,255,0.3); /* Brillo en el borde */
 }
 
 .barrel {
-    width: 34px;
-    height: 400px; /* Cañón largo */
+    width: 40px; /* Más ancho en la base */
+    height: 150px; /* CLAVE 4: CAÑÓN MUCHO MÁS CORTO */
+    /* Degradado metálico mejorado */
     background: linear-gradient(90deg, 
         var(--metal-blue) 0%, 
-        var(--metal-highlight) 40%, 
+        var(--metal-highlight) 30%, 
+        var(--metal-highlight) 70%, 
         var(--metal-blue) 100%);
-    border-left: 1px solid rgba(0,0,0,0.5);
-    border-right: 1px solid rgba(0,0,0,0.5);
     z-index: 3;
+    /* CLAVE 5: Hacemos que se estreche hacia la punta para dar profundidad */
+    clip-path: polygon(25% 0, 75% 0, 100% 100%, 0% 100%);
 }
 
 .forend {
-    width: 44px;
-    height: 120px;
-    margin-top: -120px; /* Se superpone al cañón */
+    width: 50px;
+    height: 80px;
+    margin-top: -30px;
     background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 50%, var(--wood-dark));
-    border-radius: 4px;
+    border-radius: 5px;
     z-index: 4;
     box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    /* Ajustamos el clip-path para que coincida con la perspectiva del cañón */
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
 }
 
 .stock {
-    width: 70px;
-    height: 200px;
-    margin-top: -10px;
+    width: 80px;
+    height: 120px;
+    margin-top: -5px;
     background: linear-gradient(90deg, var(--wood-dark), var(--wood-light) 40%, var(--wood-dark));
-    border-radius: 15px 15px 0 0;
+    border-radius: 20px 20px 0 0;
     z-index: 5;
-    box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 5px 15px rgba(0,0,0,0.4);
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.5);
 }
 
 .trigger-guard {
     position: absolute;
-    bottom: 140px;
+    bottom: 80px;
     width: 30px;
-    height: 40px;
+    height: 30px;
     border: 4px solid #222;
     border-top: none;
     border-radius: 0 0 50% 50%;
     z-index: 4;
+    transform: rotateX(-30deg); /* Contra-rotación para que se vea mejor */
 }
 
 /* --- INTERFAZ --- */
@@ -218,7 +229,7 @@ h1 {
     border: 4px solid #fff;
     border-radius: 10px;
     cursor: pointer;
-    z-index: 200; /* Asegura que se pueda clickear aunque el arma pase cerca visualmente */
+    z-index: 200;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     font-weight: bold;
     text-transform: uppercase;
