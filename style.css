@@ -96,93 +96,132 @@ h1 {
     z-index: 6;
 }
 
-/* --- CONTENEDOR DE ARMAS --- */
+/* --- CONTENEDOR PRINCIPAL --- */
 .guns-container {
     position: absolute;
-    bottom: -20px; /* Un poco hundidas abajo */
+    bottom: -40px; /* Un poco hundidas para ocultar el corte inferior */
     left: 0;
     width: 100%;
-    height: 250px; /* Altura del área de armas */
+    height: 300px;
     display: flex;
     justify-content: center;
-    align-items: flex-end; /* Alineadas al fondo */
-    gap: 150px; /* Separación entre ellas */
+    align-items: flex-end;
     z-index: 30;
-    pointer-events: none; /* Importante para poder clickear a través de ellas */
+    pointer-events: none; /* Permite clicks a través */
+    gap: 120px; /* Separación entre armas */
 }
 
-/* --- ESTRUCTURA BÁSICA DE UNA ESCOPETA --- */
-.gun {
+/* --- LA ESCOPETA (Base) --- */
+.rifle {
     position: relative;
-    width: 60px;
-    height: 300px;
+    width: 80px;
+    height: 380px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform-origin: bottom center; /* Rotan desde la base */
-    filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5));
+    filter: drop-shadow(10px 10px 10px rgba(0,0,0,0.6)); /* Sombra realista al suelo */
+    transform-origin: bottom center;
 }
 
-/* 1. La Mira (Puntita de arriba) */
-.sight {
-    width: 8px;
-    height: 15px;
-    background: #222;
+/* 1. LA MIRA (Punta) */
+.rifle-sight {
+    width: 6px;
+    height: 12px;
+    background-color: #111;
+    z-index: 4;
     border-radius: 2px 2px 0 0;
-    z-index: 2;
-    margin-bottom: -5px; /* Para que se una al cañón */
+    margin-bottom: -2px; /* Conectar con el cañón */
 }
 
-/* 2. El Cañón (Metal azulado) */
-.barrel {
-    width: 40px;
-    height: 200px;
-    /* Degradado para que parezca un cilindro metálico */
+/* 2. EL CAÑÓN (Metal) */
+.rifle-barrel {
+    width: 24px;
+    height: 220px;
+    z-index: 3;
+    /* EL TRUCO DEL METAL: Degradado horizontal */
     background: linear-gradient(90deg, 
-        #2c3e50 0%, 
-        #4ca1af 40%, 
-        #2c3e50 100%);
-    border-left: 2px solid #1a252f;
-    border-right: 2px solid #1a252f;
-    border-top: 5px solid #1a252f; /* Borde del cañón */
-    z-index: 1;
+        #2b323c 0%,   /* Oscuro borde */
+        #5c6b7f 20%,  /* Brillo suave */
+        #a4b0be 45%,  /* Brillo fuerte (reflejo) */
+        #8291a3 60%,  /* Medio */
+        #2b323c 100%  /* Oscuro borde */
+    );
+    border-top: 2px solid #000; /* Agujero del cañón */
+    /* Hacemos que el cañón se ensanche ligeramente hacia abajo (perspectiva) */
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
 }
 
-/* 3. La Culata / Guardamanos (Madera) */
-.stock {
-    width: 50px;
+/* 3. GUARDAMANOS (Madera delantera) */
+.rifle-wood-grip {
+    width: 36px;
     height: 100px;
-    margin-top: -20px; /* Para que solape un poco el cañón */
-    /* Degradado color madera */
+    margin-top: -80px; /* Subirlo para que tape parte del cañón */
+    z-index: 4;
+    border-radius: 4px;
+    
+    /* EL TRUCO DE LA MADERA: Marrón con degradado naranja interno */
     background: linear-gradient(90deg, 
-        #8b4513 0%, 
-        #d2691e 50%, 
-        #8b4513 100%);
-    border-radius: 5px 5px 0 0;
-    border: 2px solid #5d4037;
-    z-index: 2;
-    /* Un pequeño detalle decorativo en la madera */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        #5d3a1a 0%, 
+        #8f5e2d 30%, 
+        #a67c52 50%, /* Veta clara */
+        #8f5e2d 70%, 
+        #5d3a1a 100%
+    );
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    /* Rayitas horizontales para textura de agarre */
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 10px,
+        rgba(0,0,0,0.1) 10px,
+        rgba(0,0,0,0.1) 11px
+    );
 }
 
-/* --- POSICIONES Y ROTACIONES --- */
-
-/* La del centro: Recta y un poco más grande (perspectiva) */
-.gun-center {
-    transform: scale(1.1); /* Un poco más grande para parecer más cerca */
-    z-index: 31; /* Por encima de las de los lados */
+/* 4. LA CULATA (Madera trasera grande) */
+.rifle-stock {
+    width: 60px;
+    height: 140px;
+    margin-top: -10px;
+    z-index: 5;
+    
+    /* Forma ergonómica usando bordes redondeados */
+    border-radius: 15px 15px 0 0;
+    
+    /* Mismo efecto madera pero más oscuro */
+    background: linear-gradient(90deg, 
+        #4e342e 0%, 
+        #795548 20%, 
+        #8d6e63 45%, 
+        #5d4037 80%, 
+        #3e2723 100%
+    );
+    
+    /* Detalles de luz */
+    box-shadow: inset 0 5px 10px rgba(255,255,255,0.1), 
+                inset 0 -10px 20px rgba(0,0,0,0.5);
+                
+    /* Placa de metal en la base (opcional) */
+    border-bottom: 5px solid #222;
 }
 
-/* La de la izquierda: Rotada hacia la derecha */
-.gun-left {
-    transform: rotate(25deg);
-    margin-right: -50px; /* Ajuste visual para juntarlas */
+/* --- POSICIONES Y ÁNGULOS --- */
+
+/* Central */
+.rifle-center {
+    z-index: 32; /* La que está más al frente */
+    transform: scale(1.1); /* Un pelín más grande */
 }
 
-/* La de la derecha: Rotada hacia la izquierda */
-.gun-right {
-    transform: rotate(-25deg);
-    margin-left: -50px;
+/* Izquierda */
+.rifle-left {
+    transform: rotate(20deg) translateY(20px); 
+    /* translateY baja el arma un poco para compensar la rotación */
+}
+
+/* Derecha */
+.rifle-right {
+    transform: rotate(-20deg) translateY(20px);
 }
 
 /* --- EL PATO Y ANIMACIONES --- */
