@@ -109,11 +109,10 @@ h1 {
 .wave-front { --wave-color: var(--wave-blue-front); bottom: 0; z-index: 7; height: 150px; }
 
 
-/* --- RIFLE (AJUSTADO: MÁS CORTO Y BAJO) --- */
+/* --- RIFLE (SOLO LA PUNTA MÁS CORTA) --- */
 .rifle-container {
     position: absolute;
-    /* BAJAMOS MÁS EL ARMA para ocultar la base */
-    bottom: -180px; 
+    bottom: -180px; /* Mantenemos esta altura para ver la madera */
     left: 50%;
     transform: translateX(-50%);
     z-index: 30; 
@@ -140,9 +139,9 @@ h1 {
     border-radius: 2px;
 }
 
-/* 2. PUNTA DEL CAÑÓN */
+/* 2. PUNTA */
 .barrel-tip {
-    width: 18px; 
+    width: 20px; /* Un poco más fina arriba */
     height: 5px;
     background: #000;
     border-radius: 50%;
@@ -151,11 +150,12 @@ h1 {
     border: 1px solid #555;
 }
 
-/* 3. CAÑÓN (MÁS CORTO) */
+/* 3. CAÑÓN (ACORTADO) */
 .barrel {
-    width: 50px; /* Ancho base */
-    /* CAMBIO CLAVE: Reducimos altura de 380px a 240px */
-    height: 240px; 
+    width: 50px; 
+    /* CAMBIO CLAVE: Reducimos de 240px a 210px */
+    /* Esto baja la punta unos 30px, dejándola bajo la línea celeste */
+    height: 210px; 
     z-index: 3;
     background: linear-gradient(90deg, 
         var(--metal-dark) 0%, 
@@ -164,7 +164,7 @@ h1 {
         var(--metal-light) 60%, 
         var(--metal-dark) 100%);
     
-    /* Mantenemos la forma cónica que te gustó */
+    /* Mismo estilo cónico */
     clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
 }
 
@@ -172,7 +172,8 @@ h1 {
 .forend {
     width: 60px;
     height: 90px;
-    margin-top: -60px; /* Ajustado al nuevo largo */
+    /* Ajustamos el margen para que conecte con el cañón más corto */
+    margin-top: -60px; 
     z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
     clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
@@ -235,7 +236,6 @@ h1 {
 
 .duck-container {
     position: absolute;
-    /* CAMBIO: Subimos un poco los patos para asegurar que no chocan con el arma */
     bottom: 180px; 
     width: 80px;
     height: 120px;
