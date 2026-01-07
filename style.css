@@ -3,17 +3,19 @@
     --curtain-red: #c0392b;
     --banner-gold: #f1c40f;
     
-    /* NUEVOS COLORES PARA EL FONDO ROSA */
-    --bg-sun-center: #fff0f5; /* Centro brillante casi blanco/rosa */
-    --bg-ray-light: #f48fb1;  /* Rayo rosa claro */
-    --bg-ray-dark: #ec407a;   /* Rayo rosa más oscuro */
+    /* Colores Atardecer Rosa */
+    --bg-sun-center: #fff0f5; 
+    --bg-ray-light: #f48fb1;  
+    --bg-ray-dark: #ec407a;   
 
-    /* Colores del resto de la escena (se mantienen igual) */
-    --wave-back: #4fc3f7;
-    --wave-front: #0288d1;
-    --bush-green: #2e7d32;
-    --wood-color: #5d4037;
-    --metal-color: #37474f;
+    /* Elementos */
+    --wave-back: #4fc3f7;  /* Celeste */
+    --wave-front: #0288d1; /* Azul */
+    --bush-green: #43a047;
+    --wood-dark: #3e2723;
+    --wood-light: #5d4037;
+    --metal-dark: #263238;
+    --metal-light: #546e7a;
 }
 
 body {
@@ -31,237 +33,152 @@ body {
     overflow: hidden;
 }
 
-/* --- FONDO Y ESCENARIO --- */
-/* --- 1. FONDO: SOL CON DESTELLOS ROSAS --- */
+/* --- 1. FONDO: SOL ATARDECER --- */
 .stage-background {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: 1;
-    
-    /* Usamos dos capas de fondo: */
+    /* Efecto de rayos de sol */
     background-image: 
-        /* Capa 1 (Arriba): Un brillo circular central para el sol */
-        radial-gradient(circle at 50% 70%, var(--bg-sun-center) 10%, transparent 50%),
-        
-        /* Capa 2 (Abajo): Los rayos cónicos repetidos */
+        radial-gradient(circle at 50% 80%, var(--bg-sun-center) 10%, transparent 60%),
         repeating-conic-gradient(
-            from 0deg at 50% 70%, /* Centro del sol en la parte baja */
-            var(--bg-ray-light) 0deg 15deg,  /* Primer color de 0 a 15 grados */
-            var(--bg-ray-dark) 15deg 30deg   /* Segundo color de 15 a 30 grados */
+            from 0deg at 50% 80%, 
+            var(--bg-ray-light) 0deg 15deg, 
+            var(--bg-ray-dark) 15deg 30deg
         );
 }
 
-/* Cortinas */
+/* --- CORTINAS Y BANNER --- */
 .curtain {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 15%;
-    background: repeating-linear-gradient(90deg, var(--curtain-red), var(--curtain-red) 40px, var(--curtain-shadow) 40px, var(--curtain-shadow) 80px);
+    position: absolute; top: 0; height: 100%; width: 15%;
+    background: repeating-linear-gradient(90deg, var(--curtain-red), var(--curtain-red) 40px, #922b21 40px, #922b21 80px);
     z-index: 20;
     box-shadow: 5px 0 20px rgba(0,0,0,0.6);
 }
 .left-curtain { left: 0; border-right: 5px solid var(--banner-gold); }
 .right-curtain { right: 0; border-left: 5px solid var(--banner-gold); }
 
-/* Banner Superior */
 .top-banner {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 120px;
-    background: var(--curtain-red);
-    border: 5px solid var(--banner-gold);
-    border-top: none;
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 120px; background: var(--curtain-red);
+    border: 5px solid var(--banner-gold); border-top: none;
     border-radius: 0 0 50% 50% / 0 0 30px 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 21;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 21; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
 h1 {
-    margin: 0;
-    color: var(--banner-gold);
-    font-size: 4rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    letter-spacing: 5px;
+    margin: 0; color: var(--banner-gold); font-size: 4rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); letter-spacing: 5px;
 }
 
-/* Suelo a rayas */
 .stage-floor {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 40px;
+    position: absolute; bottom: 0; width: 100%; height: 40px;
     background: repeating-linear-gradient(90deg, #d35400, #d35400 50px, #e67e22 50px, #e67e22 100px);
-    border-top: 5px solid var(--banner-gold);
-    z-index: 25;
+    border-top: 5px solid var(--banner-gold); z-index: 25;
 }
 
-/* --- CAPA DE AGUA Y ARBUSTOS --- */
+/* --- 2. OLAS Y CAPAS --- */
 .waves-layer {
-    position: absolute;
-    bottom: 40px; /* Encima del suelo */
-    width: 100%;
-    height: 250px;
-    z-index: 5;
-    pointer-events: none;
-    overflow: hidden;
+    position: absolute; bottom: 40px; width: 100%; pointer-events: none; overflow: hidden;
 }
+.back-layer { height: 250px; z-index: 2; }
+.front-layer { height: 180px; z-index: 5; }
 
-/* ESTILO DE OLAS HOMOGÉNEAS (Sin cortes) */
 .wave {
-    position: absolute;
-    width: 200%; /* El doble de ancho para el loop */
-    left: 0;
+    position: absolute; width: 200%; left: 0; bottom: 0; height: 100%;
     background-repeat: repeat-x;
-    /* Forma de ola usando círculos perfectos */
-    background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
-    background-size: 100px 200px; /* El ancho del patrón es 100px */
+    /* Olas suaves y redondas */
+    background-image: radial-gradient(circle at 50% 0, transparent 45%, var(--wave-color) 46%);
+    background-size: 100px 50px;
 }
 
-/* Ola Trasera (Celeste) */
 .wave-back {
-    --wave-color: var(--wave-blue-back);
-    bottom: 80px;
-    height: 150px;
-    z-index: 6;
-    animation: waveLoop 4s linear infinite;
+    --wave-color: var(--wave-back);
+    animation: waveLoop 10s linear infinite;
 }
-.wave-back::after { /* Relleno sólido abajo */
-    content: ''; position: absolute; top: 50px; left: 0; width: 100%; height: 100%; background: var(--wave-color);
+/* Relleno para la ola de atrás */
+.wave-back::after {
+    content: ''; position: absolute; top: 25px; left: 0; width: 100%; height: 100%; background: var(--wave-back);
 }
 
-/* Ola Delantera (Azul) */
 .wave-front {
-    --wave-color: var(--wave-blue-front);
-    bottom: 20px;
-    height: 150px;
-    z-index: 7;
-    animation: waveLoop 5s linear infinite reverse;
+    --wave-color: var(--wave-front);
+    animation: waveLoop 8s linear infinite reverse;
 }
-.wave-front::after { /* Relleno sólido abajo */
-    content: ''; position: absolute; top: 50px; left: 0; width: 100%; height: 100%; background: var(--wave-color);
+/* Relleno para la ola de adelante */
+.wave-front::after {
+    content: ''; position: absolute; top: 25px; left: 0; width: 100%; height: 100%; background: var(--wave-front);
 }
 
 @keyframes waveLoop {
     from { transform: translateX(0); }
-    to { transform: translateX(-100px); } /* Se mueve exactamente el tamaño del patrón */
+    to { transform: translateX(-100px); }
 }
 
-/* --- ARBUSTOS (Estilo Cartoon) --- */
+/* --- 3. ARBUSTOS --- */
 .bush {
-    position: absolute;
-    bottom: 0;
-    z-index: 15; /* Delante del agua, detrás del rifle */
-    width: 150px;
-    height: 80px;
+    position: absolute; bottom: 0; z-index: 10;
+    width: 150px; height: 90px;
     background: var(--bush-green);
-    border-radius: 100px 100px 0 0;
-    box-shadow: inset -10px -5px rgba(0,0,0,0.2);
+    border-radius: 80px 80px 0 0;
+    box-shadow: inset -5px -10px 20px rgba(0,0,0,0.3);
 }
+.bush-left { left: 0; border-bottom-left-radius: 0; }
+.bush-right { right: 0; border-bottom-right-radius: 0; }
 
-/* Arbusto Izquierdo */
-.bush-left {
-    left: -20px;
-}
-/* Bolitas extra para darle forma irregular al arbusto izquierdo */
-.bush-left::before {
-    content: ''; position: absolute; bottom: 0; right: -40px;
-    width: 80px; height: 60px; background: var(--bush-green);
-    border-radius: 50%;
-}
-.bush-left::after {
-    content: ''; position: absolute; bottom: 20px; left: 30px;
-    width: 90px; height: 90px; background: var(--bush-green);
-    border-radius: 50%;
-}
-
-/* Arbusto Derecho */
-.bush-right {
-    right: -20px;
-}
-.bush-right::before {
-    content: ''; position: absolute; bottom: 0; left: -50px;
-    width: 90px; height: 70px; background: var(--bush-green);
-    border-radius: 50%;
-}
-.bush-right::after {
-    content: ''; position: absolute; bottom: 10px; right: 40px;
-    width: 100px; height: 100px; background: var(--bush-green);
-    border-radius: 50%;
-}
-
-
-/* --- RIFLE (Punta en la línea de agua) --- */
+/* --- 4. RIFLE (Ajustado) --- */
 .rifle-container {
     position: absolute;
-    bottom: -180px; 
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 30; 
-    pointer-events: none;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    bottom: -180px; left: 50%; transform: translateX(-50%);
+    z-index: 30; pointer-events: none;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
 }
 
 .rifle {
-    position: relative;
-    width: 100px;
-    height: 420px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative; width: 90px; height: 400px;
+    display: flex; flex-direction: column; align-items: center;
 }
 
-.sight { width: 4px; height: 8px; background: #000; margin-bottom: -4px; z-index: 10; border-radius: 2px; }
-.barrel-tip { width: 22px; height: 6px; background: #000; border-radius: 50%; margin-bottom: -2px; z-index: 5; border: 1px solid #555; }
+.sight { width: 4px; height: 10px; background: #000; margin-bottom: -3px; z-index: 10; }
+
+/* Punta menos cónica, más recta */
+.barrel-tip {
+    width: 24px; height: 6px; background: #000;
+    border-radius: 50%; margin-bottom: -2px; z-index: 5; border: 1px solid #444;
+}
 
 .barrel {
-    width: 55px; 
-    height: 130px; 
+    width: 45px; /* Más fino */
+    height: 160px; /* Corto para no tapar */
     z-index: 3;
-    background: linear-gradient(90deg, var(--metal-dark) 0%, var(--metal-light) 40%, #85929e 50%, var(--metal-light) 60%, var(--metal-dark) 100%);
-    clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
+    background: linear-gradient(90deg, var(--metal-dark), var(--metal-light) 40%, var(--metal-light) 60%, var(--metal-dark));
+    /* Clip-path más sutil (menos punta) */
+    clip-path: polygon(25% 0, 75% 0, 100% 100%, 0% 100%);
 }
 
 .forend {
-    width: 70px; height: 80px; margin-top: -50px; z-index: 4;
+    width: 60px; height: 90px; margin-top: -50px; z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
 .stock {
-    width: 80px; height: 150px; margin-top: -5px; z-index: 5;
+    width: 70px; height: 150px; margin-top: -5px; z-index: 5;
     background: linear-gradient(90deg, var(--wood-dark), #5d4037 40%, var(--wood-dark));
     border-radius: 20px 20px 0 0;
 }
 
 /* --- INTERFAZ --- */
 #score-board {
-    position: absolute;
-    top: 150px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 2rem;
-    background: rgba(0,0,0,0.7);
-    padding: 10px 30px;
-    border-radius: 20px;
-    border: 2px solid var(--banner-gold);
-    z-index: 100;
+    position: absolute; top: 150px; left: 50%; transform: translateX(-50%);
+    color: white; font-size: 2rem; background: rgba(0,0,0,0.7);
+    padding: 10px 30px; border-radius: 20px; border: 2px solid var(--banner-gold); z-index: 100;
 }
 
 #start-btn {
-    position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     background: var(--banner-gold); color: #c0392b;
     padding: 20px 50px; font-size: 2.5rem;
     border: 4px solid #fff; border-radius: 10px; cursor: pointer;
@@ -270,50 +187,30 @@ h1 {
 }
 #start-btn:hover { background: #f39c12; transform: translate(-50%, -50%) scale(1.05); }
 
-/* --- PATOS (Ajustados al carril de agua) --- */
+/* --- PATOS --- */
 #ducks-layer {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 4;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 4;
 }
 
 .duck-container {
-    position: absolute;
-    /* AJUSTADO: Más abajo (140px) para que parezcan flotar en el agua celeste */
-    bottom: 140px; 
-    width: 80px;
-    height: 150px; /* Más alto para acomodar el palo largo */
-    z-index: 3;
+    position: absolute; bottom: 170px; /* Flotando en el agua de atrás */
+    width: 80px; height: 150px; z-index: 3;
     animation: moveDuck linear forwards;
 }
 
 .duck-stick {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    /* Palo más largo para que se hunda en el agua */
-    height: 100px; 
-    background: #5d4037;
-    border-radius: 0 0 3px 3px;
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 100px; background: #3e2723; border-radius: 0 0 3px 3px;
 }
 
 .duck-body {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 60px;
-    line-height: 1;
-    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    font-size: 60px; line-height: 1; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
     cursor: crosshair;
 }
 
 .duck-hit {
-    transform: scale(1.2) rotate(20deg);
-    opacity: 0;
-    transition: all 0.3s ease-out;
+    transform: scale(1.2) rotate(20deg); opacity: 0; transition: all 0.3s ease-out;
 }
 
 @keyframes moveDuck {
