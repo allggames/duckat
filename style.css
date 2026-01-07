@@ -582,3 +582,29 @@ h1 {
 .game-active .rifle-container {
     bottom: -180px !important; /* Tu posición original (ajusta si era diferente) */
 }
+
+
+/* --- CORRECCIÓN DE RIFLES --- */
+.rifle-container {
+    position: absolute;
+    /* Ajusta este valor si queda muy arriba o abajo */
+    bottom: -180px !important; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30; /* Por encima del agua, debajo de la cortina */
+    pointer-events: none;
+    width: min(1200px, 120vw);
+    display: block !important; /* Forzar visualización */
+    opacity: 1 !important; /* Forzar opacidad */
+    transition: none !important; /* Quitamos la animación por ahora para que aparezcan sí o sí */
+}
+
+/* Asegurar que la imagen se vea */
+.rifle-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Ajusta la escala si se ven muy grandes o chicos */
+    transform: scale(0.8) !important; 
+    transform-origin: bottom center;
+}
