@@ -3,10 +3,10 @@
     --curtain-red: #c0392b;
     --curtain-shadow: #922b21;
     --banner-gold: #f1c40f;
-    --wave-blue-back: #29b6f6;  /* Celeste claro */
-    --wave-blue-front: #0288d1; /* Azul medio */
+    /* Colores de olas actualizados */
+    --wave-blue-back: #4fc3f7;  
+    --wave-blue-front: #039be5; 
     --bush-green: #43a047;
-    --bush-shadow: #2e7d32;
     --wood-dark: #3e2723;
     --wood-light: #5d4037;
     --metal-dark: #1c2833;
@@ -28,18 +28,19 @@ body {
     overflow: hidden;
 }
 
-/* --- FONDO Y ESCENARIO --- */
+/* --- 1. FONDO: ATARDECER ROSA --- */
 .stage-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center bottom, #8e24aa 10%, #4a148c 60%, #212121 100%);
+    /* Degradado de atardecer: Naranja suave -> Rosa -> Violeta */
+    background: linear-gradient(to bottom, #ff9a9e 0%, #fecfef 50%, #a18cd1 100%);
     z-index: 1;
 }
 
-/* Cortinas */
+/* --- CORTINAS Y BANNER --- */
 .curtain {
     position: absolute;
     top: 0;
@@ -52,7 +53,6 @@ body {
 .left-curtain { left: 0; border-right: 5px solid var(--banner-gold); }
 .right-curtain { right: 0; border-left: 5px solid var(--banner-gold); }
 
-/* Banner Superior */
 .top-banner {
     position: absolute;
     top: 0;
@@ -79,7 +79,6 @@ h1 {
     letter-spacing: 5px;
 }
 
-/* Suelo a rayas */
 .stage-floor {
     position: absolute;
     bottom: 0;
@@ -90,102 +89,87 @@ h1 {
     z-index: 25;
 }
 
-/* --- CAPA DE AGUA Y ARBUSTOS --- */
+/* --- 2. OLAS SUTILES --- */
 .waves-layer {
     position: absolute;
-    bottom: 40px; /* Encima del suelo */
+    bottom: 40px; /* Justo encima del suelo */
     width: 100%;
-    height: 250px;
+    height: 200px;
     z-index: 5;
     pointer-events: none;
-    overflow: hidden;
+    /* Quitamos el overflow hidden aquí para que los arbustos puedan sobresalir si es necesario */
 }
 
-/* ESTILO DE OLAS HOMOGÉNEAS (Sin cortes) */
 .wave {
     position: absolute;
-    width: 200%; /* El doble de ancho para el loop */
+    width: 200%; 
     left: 0;
     background-repeat: repeat-x;
-    /* Forma de ola usando círculos perfectos */
-    background-image: radial-gradient(circle at 50px 0, transparent 50px, var(--wave-color) 51px);
-    background-size: 100px 200px; /* El ancho del patrón es 100px */
+    /* AJUSTE SUTIL: Hacemos el círculo más plano y grande para que la ola sea suave */
+    background-image: radial-gradient(circle at 50% 0, transparent 45%, var(--wave-color) 46%);
+    /* 120px de ancho por 60px de alto = ondas más suaves */
+    background-size: 120px 60px; 
 }
 
-/* Ola Trasera (Celeste) */
+/* Ola Trasera */
 .wave-back {
     --wave-color: var(--wave-blue-back);
-    bottom: 80px;
-    height: 150px;
+    bottom: 60px; /* Un poco más baja */
+    height: 140px;
     z-index: 6;
-    animation: waveLoop 4s linear infinite;
+    animation: waveLoop 8s linear infinite; /* Movimiento más lento y relajado */
 }
-.wave-back::after { /* Relleno sólido abajo */
-    content: ''; position: absolute; top: 50px; left: 0; width: 100%; height: 100%; background: var(--wave-color);
-}
+.wave-back::after { content: ''; position: absolute; top: 60px; left: 0; width: 100%; height: 100%; background: var(--wave-color); }
 
-/* Ola Delantera (Azul) */
+/* Ola Delantera */
 .wave-front {
     --wave-color: var(--wave-blue-front);
     bottom: 20px;
-    height: 150px;
+    height: 140px;
     z-index: 7;
-    animation: waveLoop 5s linear infinite reverse;
+    animation: waveLoop 6s linear infinite reverse;
 }
-.wave-front::after { /* Relleno sólido abajo */
-    content: ''; position: absolute; top: 50px; left: 0; width: 100%; height: 100%; background: var(--wave-color);
-}
+.wave-front::after { content: ''; position: absolute; top: 60px; left: 0; width: 100%; height: 100%; background: var(--wave-color); }
 
 @keyframes waveLoop {
     from { transform: translateX(0); }
-    to { transform: translateX(-100px); } /* Se mueve exactamente el tamaño del patrón */
+    to { transform: translateX(-120px); } 
 }
 
-/* --- ARBUSTOS (Estilo Cartoon) --- */
+/* --- 4. ARBUSTOS (VISIBLES EN PRIMER PLANO) --- */
 .bush {
     position: absolute;
-    bottom: 0;
-    z-index: 15; /* Delante del agua, detrás del rifle */
-    width: 150px;
+    bottom: 20px; /* Pegados al suelo */
+    z-index: 10; /* Encima de las olas */
+    width: 140px;
     height: 80px;
     background: var(--bush-green);
-    border-radius: 100px 100px 0 0;
-    box-shadow: inset -10px -5px rgba(0,0,0,0.2);
+    border-radius: 100px 100px 0 0; /* Forma de domo */
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
 }
 
-/* Arbusto Izquierdo */
 .bush-left {
-    left: -20px;
+    left: 0; /* Pegado a la izquierda */
+    border-bottom-left-radius: 0;
 }
-/* Bolitas extra para darle forma irregular al arbusto izquierdo */
+/* Detalles redondos extra para el arbusto izquierdo */
 .bush-left::before {
-    content: ''; position: absolute; bottom: 0; right: -40px;
-    width: 80px; height: 60px; background: var(--bush-green);
-    border-radius: 50%;
-}
-.bush-left::after {
-    content: ''; position: absolute; bottom: 20px; left: 30px;
-    width: 90px; height: 90px; background: var(--bush-green);
-    border-radius: 50%;
+    content: ''; position: absolute; bottom: 0; right: -30px;
+    width: 60px; height: 50px; background: var(--bush-green); border-radius: 50%;
 }
 
-/* Arbusto Derecho */
 .bush-right {
-    right: -20px;
+    right: 0; /* Pegado a la derecha */
+    border-bottom-right-radius: 0;
 }
+/* Detalles redondos extra para el arbusto derecho */
 .bush-right::before {
-    content: ''; position: absolute; bottom: 0; left: -50px;
-    width: 90px; height: 70px; background: var(--bush-green);
-    border-radius: 50%;
-}
-.bush-right::after {
-    content: ''; position: absolute; bottom: 10px; right: 40px;
-    width: 100px; height: 100px; background: var(--bush-green);
-    border-radius: 50%;
+    content: ''; position: absolute; bottom: 0; left: -30px;
+    width: 60px; height: 50px; background: var(--bush-green); border-radius: 50%;
 }
 
 
-/* --- RIFLE (Punta en la línea de agua) --- */
+/* --- RIFLE (PUNTA MENOS CÓNICA) --- */
 .rifle-container {
     position: absolute;
     bottom: -180px; 
@@ -199,32 +183,64 @@ h1 {
 .rifle {
     position: relative;
     width: 100px;
-    height: 420px; 
+    height: 400px; 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.sight { width: 4px; height: 8px; background: #000; margin-bottom: -4px; z-index: 10; border-radius: 2px; }
-.barrel-tip { width: 22px; height: 6px; background: #000; border-radius: 50%; margin-bottom: -2px; z-index: 5; border: 1px solid #555; }
+.sight {
+    width: 4px;
+    height: 8px;
+    background: #000;
+    margin-bottom: -4px;
+    z-index: 10;
+    border-radius: 2px;
+}
 
+.barrel-tip {
+    width: 26px; /* Un poco más ancha para coincidir con el cañón nuevo */
+    height: 6px;
+    background: #000;
+    border-radius: 50%;
+    margin-bottom: -2px;
+    z-index: 5;
+    border: 1px solid #555;
+}
+
+/* 3. CAÑÓN MENOS CÓNICO */
 .barrel {
     width: 55px; 
-    height: 130px; 
+    height: 180px; 
     z-index: 3;
-    background: linear-gradient(90deg, var(--metal-dark) 0%, var(--metal-light) 40%, #85929e 50%, var(--metal-light) 60%, var(--metal-dark) 100%);
-    clip-path: polygon(30% 0, 70% 0, 100% 100%, 0% 100%);
+    background: linear-gradient(90deg, 
+        var(--metal-dark) 0%, 
+        var(--metal-light) 40%, 
+        #85929e 50%,
+        var(--metal-light) 60%, 
+        var(--metal-dark) 100%);
+    
+    /* CAMBIO AQUÍ: '20%' en lugar de '30%' en el clip-path */
+    /* Esto hace que la parte de arriba sea más ancha (menos punta) */
+    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
 }
 
 .forend {
-    width: 70px; height: 80px; margin-top: -50px; z-index: 4;
+    width: 70px;
+    height: 80px;
+    margin-top: -50px; 
+    z-index: 4;
     background: linear-gradient(90deg, var(--wood-dark), #795548 50%, var(--wood-dark));
-    clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
+    /* Ajustamos también la madera para que siga la línea */
+    clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%);
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
 .stock {
-    width: 80px; height: 150px; margin-top: -5px; z-index: 5;
+    width: 80px;
+    height: 150px;
+    margin-top: -5px;
+    z-index: 5;
     background: linear-gradient(90deg, var(--wood-dark), #5d4037 40%, var(--wood-dark));
     border-radius: 20px 20px 0 0;
 }
@@ -246,28 +262,38 @@ h1 {
 
 #start-btn {
     position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: var(--banner-gold); color: #c0392b;
-    padding: 20px 50px; font-size: 2.5rem;
-    border: 4px solid #fff; border-radius: 10px; cursor: pointer;
-    z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    font-weight: bold; text-transform: uppercase;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--banner-gold);
+    color: #c0392b;
+    padding: 20px 50px;
+    font-size: 2.5rem;
+    border: 4px solid #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 200;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    font-weight: bold;
+    text-transform: uppercase;
 }
 #start-btn:hover { background: #f39c12; transform: translate(-50%, -50%) scale(1.05); }
 
-/* --- PATOS (Ajustados al carril de agua) --- */
+/* --- PATOS --- */
 #ducks-layer {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 4;
 }
 
 .duck-container {
     position: absolute;
-    /* AJUSTADO: Más abajo (140px) para que parezcan flotar en el agua celeste */
-    bottom: 140px; 
+    bottom: 180px; 
     width: 80px;
-    height: 150px; /* Más alto para acomodar el palo largo */
+    height: 120px;
     z-index: 3;
     animation: moveDuck linear forwards;
 }
@@ -278,8 +304,7 @@ h1 {
     left: 50%;
     transform: translateX(-50%);
     width: 6px;
-    /* Palo más largo para que se hunda en el agua */
-    height: 100px; 
+    height: 80px;
     background: #5d4037;
     border-radius: 0 0 3px 3px;
 }
