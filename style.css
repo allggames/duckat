@@ -321,13 +321,16 @@ h1 {
 /* --- BARRA DE PROGRESO DE BONOS --- */
 .progress-wrapper {
     position: absolute;
-    top: 230px; /* Debajo del puntaje */
+    /* CAMBIO: Ahora está arriba, ocupando el lugar del título */
+    top: 30px; 
     left: 50%;
     transform: translateX(-50%);
     width: 60%;
     max-width: 400px;
     z-index: 90;
     pointer-events: none;
+    /* CAMBIO: Oculta por defecto hasta que empiece el juego */
+    display: none; 
 }
 
 .progress-bar {
@@ -337,19 +340,18 @@ h1 {
     border: 3px solid #f1c40f;
     border-radius: 12px;
     position: relative;
-    overflow: hidden; /* Para que el relleno no se salga */
+    overflow: hidden; 
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 #progress-fill {
-    width: 0%; /* Empieza vacío */
+    width: 0%; 
     height: 100%;
-    background: linear-gradient(90deg, #43a047, #76ff03); /* Verde brillante */
-    transition: width 0.3s ease-out; /* Animación suave al llenarse */
+    background: linear-gradient(90deg, #43a047, #76ff03); 
+    transition: width 0.3s ease-out; 
     box-shadow: inset 0 2px 0 rgba(255,255,255,0.3);
 }
 
-/* Marcas (3, 6, 9, 12) */
 .tick {
     position: absolute;
     top: 0;
@@ -359,7 +361,7 @@ h1 {
 }
 .tick span {
     position: absolute;
-    top: 26px; /* Debajo de la barra */
+    top: 26px; 
     left: -50%;
     transform: translateX(-50%);
     font-size: 14px;
@@ -372,7 +374,7 @@ h1 {
     text-align: center;
     color: #f1c40f;
     font-size: 12px;
-    margin-top: 15px; /* Espacio para los números */
+    margin-top: 15px; 
     letter-spacing: 2px;
     text-shadow: 1px 1px 0 #000;
 }
