@@ -412,3 +412,30 @@ h1 {
     80% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     100% { transform: translate(-50%, -150%) scale(1.5); opacity: 0; } /* Sube y desaparece */
 }
+
+/* --- EFECTO DE EXPLOSIÓN AL IMPACTAR --- */
+.explosion {
+    position: absolute;
+    font-size: 5rem; /* Emoji grande */
+    z-index: 200; /* Por encima de todo */
+    pointer-events: none; /* Que no interfiera con otros clics */
+    /* Centramos el elemento exactamente en el punto del clic */
+    transform: translate(-50%, -50%);
+    /* Animación rápida de "pop" y desvanecimiento */
+    animation: boomAnim 0.5s ease-out forwards;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.8); /* Un brillito extra */
+}
+
+@keyframes boomAnim {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5); /* Empieza pequeño */
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2); /* Crece un poco más de lo normal */
+    }
+    100% {
+        opacity: 0; /* Se desvanece */
+        transform: translate(-50%, -50%) scale(1); /* Vuelve a tamaño normal mientras desaparece */
+    }
+}
