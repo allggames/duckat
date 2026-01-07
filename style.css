@@ -88,55 +88,102 @@ h1 {
 /* --- OLAS ANIMADAS --- */
 .waves-layer {
     position: absolute;
-    bottom: 40px;
+    bottom: 0;
     width: 100%;
-    height: 200px;
+    height: 300px; /* Altura total del área de agua */
     z-index: 5;
     pointer-events: none;
-    overflow: hidden; /* Importante para que la animación no genere scroll */
+    overflow: hidden;
 }
 
 .wave {
     position: absolute;
-    width: 200%; /* Hacemos que sea más ancho que la pantalla para poder moverlo */
-    height: 100%;
-    bottom: 0;
-    left: 0;
+    width: 200%; /* Más ancho para poder moverlo infinitamente */
+    left: -50%;
     background-repeat: repeat-x;
-    /* Mantenemos la forma de ola de feria */
-    background-image: radial-gradient(circle at 50% 100%, transparent 45%, var(--wave-color) 46%);
-    background-size: 100px 180px; /* Tamaño del patrón de la ola */
 }
 
-.wave-back {
-    --wave-color: var(--wave-blue-back);
-    bottom: 20px;
-    z-index: 6;
-    height: 180px;
-    opacity: 0.7; /* Un poco más transparente para dar profundidad */
-    /* Animación: Nombre, duración, velocidad constante, bucle infinito */
-    animation: waveFlow 25s linear infinite;
-}
-
-.wave-front {
-    --wave-color: var(--wave-blue-front);
-    bottom: 0;
-    z-index: 7;
+/* --- CAPA 1: Celeste Claro (Arriba) --- */
+.wave-top {
+    bottom: 90px; /* La más alta */
     height: 150px;
-    /* Animación más rápida y en dirección contraria (reverse) */
-    animation: waveFlow 15s linear infinite reverse;
+    z-index: 6;
+    /* Dibujamos los semicírculos celestes */
+    background-image: radial-gradient(circle at 30px 0, #29b6f6 30px, transparent 31px);
+    background-size: 60px 60px; /* Ancho de cada ondita */
+    background-position: bottom;
+    /* Fondo sólido debajo de las ondas */
+    background-color: transparent; 
+    
+    /* Animación: Misma dirección que las rosas */
+    animation: moveRight 4s linear infinite;
+}
+/* Relleno sólido para la parte de abajo de esta ola */
+.wave-top::after {
+    content: '';
+    position: absolute;
+    top: 30px; /* Justo debajo de los círculos */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #29b6f6;
 }
 
-/* DEFINICIÓN DE LA ANIMACIÓN */
-@keyframes waveFlow {
-    from {
-        background-position-x: 0;
-    }
-    to {
-        /* Movemos el fondo horizontalmente una gran distancia para que el bucle sea suave */
-        background-position-x: 2000px; 
-    }
+/* --- CAPA 2: Azul Oscuro (Medio) --- */
+.wave-middle {
+    bottom: 50px;
+    height: 120px;
+    z-index: 7;
+    /* Ondas azul oscuro */
+    background-image: radial-gradient(circle at 30px 0, #0277bd 30px, transparent 31px);
+    background-size: 60px 60px;
+    
+    /* Animación: DIRECCIÓN CONTRARIA */
+    animation: moveLeft 5s linear infinite;
 }
+.wave-middle::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0277bd;
+}
+
+/* --- CAPA 3: Rosa (Abajo) --- */
+.wave-bottom {
+    bottom: 0;
+    height: 80px;
+    z-index: 8;
+    /* Ondas rosas */
+    background-image: radial-gradient(circle at 30px 0, #ec407a 30px, transparent 31px);
+    background-size: 60px 60px;
+    
+    /* Animación: Misma dirección que la celeste de arriba */
+    animation: moveRight 3s linear infinite;
+}
+.wave-bottom::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ec407a;
+}
+
+/* --- DEFINICIÓN DE MOVIMIENTOS --- */
+@keyframes moveRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(60px); } /* Se mueve el tamaño exacto de una onda para que el bucle sea perfecto */
+}
+
+@keyframes moveLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-60px); }
+}
+    
 /* --- RIFLE (CALCULADO MILIMÉTRICAMENTE) --- */
 .rifle-container {
     position: absolute;
