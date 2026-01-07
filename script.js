@@ -74,6 +74,7 @@ function spawnDuck() {
     duckContainer.appendChild(stick);
     duckContainer.appendChild(duckBody);
 
+    // --- AQUÍ ESTÁ EL CAMBIO PRINCIPAL ---
     duckBody.addEventListener('mousedown', function(e) {
         if (!duckBody.classList.contains('duck-hit')) {
             score += 10;
@@ -87,11 +88,31 @@ function spawnDuck() {
             if (ducksHitCount === 9) showBonus("¡BONO 150%!");
             if (ducksHitCount === 12) showBonus("¡BONO 200%!");
 
+            // 1. Crear el elemento de explosión
+            const boom = document.createElement('div');
+            boom.classList.add('explosion');
+            boom.innerText = '💥';
+
+            // 2. Posicionarlo exactamente donde se hizo clic
+            // Usamos clientX y clientY que nos da la posición del mouse en la pantalla
+            boom.style.left = e.clientX + 'px';
+            boom.style.top = e.clientY + 'px';
+
+            // 3. Agregarlo al cuerpo del documento (fuera del contenedor del juego para que no se mueva con el pato)
+            document.body.appendChild(boom);
+
+            // 4. Eliminarlo después de que termine la animación (0.5s = 500ms)
+            setTimeout(() => {
+                boom.remove();
+            }, 500);
+
+            // Animación de muerte del pato original
             duckBody.classList.add('duck-hit');
             setTimeout(() => { duckContainer.remove(); }, 300);
         }
         e.stopPropagation();
     });
+    // ------------------------------------
 
     gameContainer.appendChild(duckContainer);
 
