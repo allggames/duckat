@@ -527,3 +527,58 @@ h1 {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+
+/* --- NUEVO: ESTILOS PARA LA INTRO Y TRANSICIÓN --- */
+
+/* 1. Ajuste de Cortinas para que cierren al inicio */
+.curtain {
+    width: 51% !important; /* Fuerzan cierre al 50% + un poquito */
+    transition: width 1.5s ease-in-out; /* Animación suave */
+    z-index: 500; /* Por encima de todo menos la intro */
+}
+
+/* Estado "Abierto" (se agrega con JS) */
+.curtains-open .left-curtain, 
+.curtains-open .right-curtain {
+    width: 12% !important; /* Se encogen a los lados */
+}
+
+/* 2. Pantalla de Intro */
+#intro-screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 600; /* Encima de las cortinas */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s;
+}
+
+/* 3. Interfaz de Juego (aparece después) */
+#game-ui {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 100;
+    pointer-events: none; /* Para poder clickear patos a través */
+    opacity: 0;
+    transition: opacity 1s 1s; /* Aparece con retraso (despues de cortinas) */
+}
+
+/* Cuando el juego está activo, mostramos la UI */
+.game-active #game-ui {
+    opacity: 1;
+}
+
+/* 4. Rifles (Suben desde abajo) */
+/* Añade esto a tu clase .rifle-container existente si quieres que suban */
+.rifle-container {
+    transition: bottom 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    bottom: -500px !important; /* Escondidos al inicio */
+}
+
+/* Posición final al jugar */
+.game-active .rifle-container {
+    bottom: -180px !important; /* Tu posición original (ajusta si era diferente) */
+}
