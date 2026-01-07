@@ -85,12 +85,12 @@ h1 {
     z-index: 25;
 }
 
-/* --- OLAS ANIMADAS --- */
+/* --- OLAS ANIMADAS ESTILO CARTOON --- */
 .waves-layer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 300px; /* Altura total del área de agua */
+    height: 350px; /* Aumentamos altura para que se vean bien las capas */
     z-index: 5;
     pointer-events: none;
     overflow: hidden;
@@ -98,79 +98,77 @@ h1 {
 
 .wave {
     position: absolute;
-    width: 200%; /* Más ancho para poder moverlo infinitamente */
+    width: 200%; 
     left: -50%;
     background-repeat: repeat-x;
 }
 
 /* --- CAPA 1: Celeste Claro (Arriba) --- */
 .wave-top {
-    bottom: 90px; /* La más alta */
-    height: 150px;
+    bottom: 120px; /* La subimos más */
+    height: 180px;
     z-index: 6;
-    /* Dibujamos los semicírculos celestes */
-    background-image: radial-gradient(circle at 30px 0, #29b6f6 30px, transparent 31px);
-    background-size: 60px 60px; /* Ancho de cada ondita */
-    background-position: bottom;
-    /* Fondo sólido debajo de las ondas */
-    background-color: transparent; 
     
-    /* Animación: Misma dirección que las rosas */
-    animation: moveRight 4s linear infinite;
+    /* El truco para olas redondas: Círculos grandes repetidos */
+    background-image: radial-gradient(circle at 50% 100%, #29b6f6 55%, transparent 56%);
+    background-size: 120px 240px; /* Olas más anchas y altas */
+    background-position: bottom;
+    
+    /* Animación lenta hacia la derecha */
+    animation: moveRight 6s linear infinite;
 }
-/* Relleno sólido para la parte de abajo de esta ola */
-.wave-top::after {
-    content: '';
-    position: absolute;
-    top: 30px; /* Justo debajo de los círculos */
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #29b6f6;
-}
+/* Relleno sólido para esta capa no es necesario porque los círculos son grandes, 
+   pero si quieres un fondo sólido detrás, puedes añadirlo en el HTML o con ::after */
+
 
 /* --- CAPA 2: Azul Oscuro (Medio) --- */
 .wave-middle {
-    bottom: 50px;
-    height: 120px;
+    bottom: 60px;
+    height: 150px;
     z-index: 7;
-    /* Ondas azul oscuro */
-    background-image: radial-gradient(circle at 30px 0, #0277bd 30px, transparent 31px);
-    background-size: 60px 60px;
     
-    /* Animación: DIRECCIÓN CONTRARIA */
-    animation: moveLeft 5s linear infinite;
-}
-.wave-middle::after {
-    content: '';
-    position: absolute;
-    top: 30px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #0277bd;
+    background-image: radial-gradient(circle at 50% 100%, #0277bd 55%, transparent 56%);
+    background-size: 100px 200px; /* Un poco más pequeñas que las de arriba */
+    
+    /* Animación hacia la izquierda */
+    animation: moveLeft 7s linear infinite;
 }
 
-/* --- CAPA 3: Rosa (Abajo) --- */
+
+/* --- CAPA 3: Rosa/Morado (Abajo - Primer plano) --- */
 .wave-bottom {
-    bottom: 0;
-    height: 80px;
+    bottom: -20px; /* Un poco hundida */
+    height: 140px;
     z-index: 8;
-    /* Ondas rosas */
-    background-image: radial-gradient(circle at 30px 0, #ec407a 30px, transparent 31px);
-    background-size: 60px 60px;
     
-    /* Animación: Misma dirección que la celeste de arriba */
-    animation: moveRight 3s linear infinite;
+    background-image: radial-gradient(circle at 50% 100%, #ec407a 55%, transparent 56%);
+    background-size: 110px 220px;
+    
+    /* Animación rápida hacia la derecha */
+    animation: moveRight 5s linear infinite;
 }
-.wave-bottom::after {
+
+/* Relleno sólido abajo del todo para que no se vea hueco al moverse */
+.waves-layer::after {
     content: '';
     position: absolute;
-    top: 30px;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: #ec407a;
+    height: 40px;
+    background-color: #ec407a; /* Mismo color que la ola de abajo */
+    z-index: 8;
+}
+
+/* --- ANIMACIONES --- */
+@keyframes moveRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(110px); } /* Debe coincidir con el ancho del background-size aprox */
+}
+
+@keyframes moveLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100px); }
 }
 
 /* --- DEFINICIÓN DE MOVIMIENTOS --- */
