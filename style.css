@@ -527,3 +527,56 @@ h1 {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+/* --- LÓGICA DE VISIBILIDAD (SIN TOCAR POSICIÓN NI TAMAÑO) --- */
+
+/* 1. Estado Inicial: Rifles invisibles (pero en su sitio) */
+/* Usamos !important para asegurar que sobreescriba cualquier defecto */
+.rifle-container {
+    opacity: 0 !important;
+    transition: opacity 1s ease-in-out !important;
+    /* Aseguramos que se mantenga el display block */
+    display: block !important; 
+}
+
+/* 2. Estado Jugando: Rifles visibles */
+/* Esta clase se agrega al <body> o al #game-container con JS */
+.game-active .rifle-container {
+    opacity: 1 !important;
+}
+
+/* --- ANIMACIÓN DE CORTINAS Y UI --- */
+
+/* Cortinas cerradas al inicio */
+.curtain {
+    width: 51% !important; /* Fuerzan cierre */
+    transition: width 1.5s ease-in-out;
+}
+
+/* Cortinas abiertas (clase JS) */
+.curtains-open .left-curtain, 
+.curtains-open .right-curtain {
+    width: 12% !important; /* Se encogen */
+}
+
+/* Intro Screen (Título y Botón) */
+#intro-screen {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 600; /* Encima de todo */
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.5s;
+}
+
+/* Interfaz de Juego (Oculta al inicio) */
+#game-ui {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 100; pointer-events: none;
+    opacity: 0; /* Invisible */
+    transition: opacity 1s 1s; /* Aparece con retraso */
+}
+
+/* Mostrar Interfaz al jugar */
+.game-active #game-ui {
+    opacity: 1;
+}
+
