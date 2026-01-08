@@ -90,10 +90,18 @@ body {
 
 h1 {
   margin: 0;
-  color: var(--banner-gold);
-  font-size: 4rem;
-  text-shadow: 3px 3px 0px #000;
-  letter-spacing: 5px;
+  font-size: 5rem; /* Un poco más grande */
+  font-weight: 800; /* Extra bold */
+  letter-spacing: 2px;
+  
+  /* EFECTO DORADO LLAMATIVO */
+  background: linear-gradient(to bottom, var(--text-gold-light), var(--banner-gold), var(--text-gold-dark));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; /* Hacemos el texto transparente para ver el degradado de fondo */
+  
+  /* Sombra fuerte para 3D */
+  filter: drop-shadow(0px 4px 0px var(--text-shadow-color));
 }
 
 .stage-floor {
@@ -229,21 +237,23 @@ h1 {
   top: 160px;
   left: 50%;
   transform: translateX(-50%);
-  color: white;
+  color: var(--banner-gold); /* Texto dorado */
   font-size: 2.5rem;
+  font-weight: 700; /* Bold */
   background: rgba(44, 62, 80, 0.9);
   padding: 10px 40px;
   border-radius: 50px;
   border: 4px solid var(--banner-gold);
   z-index: 100;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  text-shadow: 2px 2px 0 #000;
-  font-family: "Arial Black", sans-serif;
+  text-shadow: 2px 2px 0 var(--text-shadow-color); /* Sombra naranja oscura */
+  font-family: 'Lexend', sans-serif;
   letter-spacing: 1px;
 }
 
 #duck-counter {
-  color: #f1c40f;
+  color: var(--text-gold-light); /* El número más brillante */
+  font-weight: 800;
   margin-left: 10px;
 }
 
@@ -253,22 +263,27 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--banner-gold);
-  color: #c0392b;
-  padding: 20px 50px;
-  font-size: 2.5rem;
-  border: 4px solid #fff;
-  border-radius: 10px;
+  
+  /* CAMBIO: Color de texto naranja oscuro intenso */
+  color: #bf360c; 
+  font-family: 'Lexend', sans-serif;
+  font-weight: 800;
+  padding: 20px 60px;
+  font-size: 3rem;
+  border: 5px solid #fff;
+  border-radius: 15px;
   cursor: pointer;
   z-index: 200;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  font-weight: 800;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 -5px 0 rgba(0,0,0,0.2);
   text-transform: uppercase;
+  /* Sombra de texto para que resalte */
+  text-shadow: 2px 2px 0px #fff;
 }
 
 #start-btn:hover {
-  background: #ffca28;
+  background: var(--text-gold-light);
   transform: translate(-50%, -50%) scale(1.05);
-  color: #b71c1c;
+  color: #d84315;
 }
 
 #ducks-layer {
@@ -448,19 +463,20 @@ h1 {
   top: 26px;
   left: -50%;
   transform: translateX(-50%);
-  font-size: 14px;
-  color: #fff;
-  font-weight: bold;
+  font-size: 16px;
+  color: var(--banner-gold); /* Números dorados */
+  font-weight: 700;
   text-shadow: 1px 1px 2px #000;
 }
 
 .progress-label {
   text-align: center;
-  color: #f1c40f;
-  font-size: 12px;
+  color: var(--banner-gold); /* Etiqueta dorada */
+  font-size: 14px;
+  font-weight: 700;
   margin-top: 15px;
-  letter-spacing: 2px;
-  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px #000;
 }
 
 #bonus-popup {
@@ -468,19 +484,25 @@ h1 {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  font-size: 4rem;
+  font-size: 5rem; /* Más grande */
+  font-family: 'Lexend', sans-serif;
+  font-weight: 800; /* Extra bold */
+  
+  /* Texto blanco con borde naranja/dorado fuerte */
   color: #fff;
-  background: linear-gradient(45deg, #ffca28, #f57c00);
-  padding: 20px 40px;
-  border-radius: 20px;
-  border: 5px solid #fff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 3px var(--text-gold-dark);
+  text-shadow: 4px 4px 0 var(--text-shadow-color);
+  
+  background: linear-gradient(45deg, var(--banner-gold), var(--text-gold-dark));
+  padding: 30px 50px;
+  border-radius: 25px;
+  border: 6px solid #fff;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
   z-index: 200;
   opacity: 0;
   pointer-events: none;
   text-align: center;
   white-space: nowrap;
-  font-family: "Arial Black", sans-serif;
 }
 
 .bonus-anim {
