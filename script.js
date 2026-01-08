@@ -1,6 +1,6 @@
 const TOTAL_DUCKS_PER_ROUND = 20;
 const WINNING_SCORE = 12;
-
+ 
 let ducksRemaining = TOTAL_DUCKS_PER_ROUND;
 let ducksHitCount = 0;
 let isPlaying = false;
