@@ -1,17 +1,21 @@
 :root {
+  /* Colores existentes... */
   --curtain-red: #b71c1c;
   --curtain-shadow: #7f0000;
-  --banner-gold: #ffca28;
+  --banner-gold: #ffca28; /* Dorado base */
+  
+  /* --- NUEVOS COLORES PARA TIPOGRAFÍA DORADA --- */
+  --text-gold-light: #fff176;   /* Amarillo brillante */
+  --text-gold-dark: #ff8f00;    /* Naranja dorado oscuro */
+  --text-shadow-color: #5d4037; /* Sombra marrón oscura para contraste */
+  
+  /* Colores de fondo y elementos... */
   --bg-sun-center: #f8bbd0;
   --bg-ray-light: #ec407a;
   --bg-ray-dark: #880e4f;
   --wave-back: #42a5f5;
   --wave-front: #1e88e5;
   --bush-green: #2e7d32;
-  --wood-dark: #3e2723;
-  --wood-light: #5d4037;
-  --metal-dark: #263238;
-  --metal-light: #546e7a;
 }
 
 body {
