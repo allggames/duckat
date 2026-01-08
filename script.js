@@ -1,165 +1,180 @@
-// --- CONFIGURACIÓN ---
-const TOTAL_DUCKS = 20;
+const TOTAL_DUCKS_PER_ROUND = 20;
 const WINNING_SCORE = 12;
 
-let ducksRemaining = TOTAL_DUCKS;
+let ducksRemaining = TOTAL_DUCKS_PER_ROUND;
 let ducksHitCount = 0;
 let isPlaying = false;
-let spawnTimer = null;
 
-// Elementos
 const container = document.getElementById('game-container');
 const introScreen = document.getElementById('intro-screen');
-const startBtn = document.getElementById('start-btn');
+const gameUI = document.getElementById('game-ui');
 const counterElement = document.getElementById('duck-counter');
+const gameLayer = document.getElementById('ducks-layer');
 const progressFill = document.getElementById('progress-fill');
 const bonusPopup = document.getElementById('bonus-popup');
-const ducksLayer = document.getElementById('ducks-layer');
+const startBtn = document.getElementById('start-btn');
+const rifleContainer = document.querySelector('.rifle-container');
 
-// --- FUNCIONES ---
+if (rifleContainer) rifleContainer.style.opacity = '0';
 
 function startGame() {
-  // 1. Resetear variables
-  ducksRemaining = TOTAL_DUCKS;
-  ducksHitCount = 0;
-  isPlaying = true;
-  
-  // 2. UI Reset
-  counterElement.innerText = ducksRemaining;
-  progressFill.style.width = '0%';
-  
-  // 3. Animaciones de entrada
   introScreen.style.opacity = '0';
   setTimeout(() => { introScreen.style.display = 'none'; }, 500);
-  
-  container.classList.add('curtains-open'); // Abrir cortinas
-  container.classList.add('game-active');   // Mostrar UI y Rifles
 
-  // 4. Iniciar ciclo de patos
+  container.classList.add('curtains-open');
+  container.classList.add('game-active');
+
+  gameUI.style.display = 'block';
+  setTimeout(() => {
+    gameUI.style.opacity = '1';
+    if (rifleContainer) rifleContainer.style.opacity = '1';
+  }, 100);
+
+  ducksRemaining = TOTAL_DUCKS_PER_ROUND;
+  ducksHitCount = 0;
+  if (counterElement) counterElement.innerText = ducksRemaining;
+  updateProgressBar();
+
+  isPlaying = true;
   setTimeout(spawnDuck, 1000);
 }
 
-function endGame(result) {
-  isPlaying = false;
-  clearTimeout(spawnTimer);
-
-  // Limpiar patos en pantalla
-  ducksLayer.innerHTML = '';
-
-  // Cerrar escenario
-  container.classList.remove('curtains-open');
-  container.classList.remove('game-active');
-
-  // Mostrar pantalla final
-  setTimeout(() => {
-    introScreen.style.display = 'flex';
-    setTimeout(() => introScreen.style.opacity = '1', 50);
-
-    if (result === 'WIN') {
-        startBtn.innerHTML = "¡GANASTE!<br><span style='font-size:1.5rem; color:white'>¡BONO COMPLETO!</span>";
-        startBtn.style.background = "#76ff03"; // Verde victoria
-    } else {
-        startBtn.innerHTML = "FIN DEL JUEGO<br><span style='font-size:1.5rem; color:white'>INTENTAR DE NUEVO</span>";
-        startBtn.style.background = "#ffca28"; // Dorado normal
-    }
-  }, 1000);
-}
-
-function updateProgress() {
-  let percent = (ducksHitCount / WINNING_SCORE) * 100;
-  if (percent > 100) percent = 100;
-  progressFill.style.width = percent + '%';
+function updateProgressBar() {
+  let percentage = (ducksHitCount / WINNING_SCORE) * 100;
+  if (percentage > 100) percentage = 100;
+  if (progressFill) progressFill.style.width = percentage + '%';
 }
 
 function showBonus(text) {
+  if (!bonusPopup) return;
   bonusPopup.innerText = text;
   bonusPopup.classList.remove('bonus-anim');
-  void bonusPopup.offsetWidth; // Reiniciar animacion CSS
+  void bonusPopup.offsetWidth;
   bonusPopup.classList.add('bonus-anim');
+}
+
+function getResult() {
+  if (ducksHitCount >= 12) return { title: "¡GANASTE!", bonus: "BONO 200%", level: "win" };
+  if (ducksHitCount >= 9)  return { title: "¡MUY BIEN!", bonus: "BONO 150%", level: "high" };
+  if (ducksHitCount >= 6)  return { title: "BIEN", bonus: "BONO 100%", level: "mid" };
+  if (ducksHitCount >= 3)  return { title: "REGULAR", bonus: "BONO 50%", level: "low" };
+  return { title: "¡INTENTÁ DE NUEVO!", bonus: "SIN BONO", level: "none" };
+}
+
+function renderFinalPopup({ title, bonus, level }) {
+  startBtn.className = '';
+  startBtn.classList.add('final-btn', `lvl-${level}`);
+  startBtn.innerHTML = `
+    <div class="final-title">${title}</div>
+    <div class="final-bonus">${bonus}</div>
+    <div class="final-cta">JUGAR OTRA</div>
+  `;
+  startBtn.onclick = startGame;
+}
+
+function endGame(custom) {
+  isPlaying = false;
+
+  const remainingDucks = document.querySelectorAll('.duck-container');
+  remainingDucks.forEach(d => d.remove());
+
+  container.classList.remove('curtains-open');
+  container.classList.remove('game-active');
+
+  gameUI.style.opacity = '0';
+  if (rifleContainer) rifleContainer.style.opacity = '0';
+
+  setTimeout(() => { gameUI.style.display = 'none'; }, 500);
+
+  setTimeout(() => {
+    introScreen.style.display = 'flex';
+    setTimeout(() => { introScreen.style.opacity = '1'; }, 50);
+
+    const result = custom || getResult();
+    renderFinalPopup(result);
+  }, 1500);
 }
 
 function spawnDuck() {
   if (!isPlaying) return;
 
-  // Lógica de fin por falta de patos
   if (ducksRemaining <= 0) {
-    setTimeout(() => {
-        if (isPlaying) endGame('LOSE'); // Si se acabaron los patos y no ganaste aun
-    }, 2000);
+    setTimeout(() => { if (isPlaying) endGame(); }, 2000);
     return;
   }
 
   ducksRemaining--;
-  counterElement.innerText = ducksRemaining;
+  if (counterElement) counterElement.innerText = ducksRemaining;
 
-  // Crear HTML del Pato
-  const duck = document.createElement('div');
-  duck.className = 'duck-container';
-  
-  // Posición y velocidad aleatoria
-  const speed = Math.random() * 3 + 3; // Entre 3 y 6 segundos
-  duck.style.animationDuration = speed + 's';
-  duck.style.bottom = (Math.floor(Math.random() * 50) + 160) + 'px';
+  const duckContainer = document.createElement('div');
+  duckContainer.classList.add('duck-container');
 
-  // Estructura interna del pato
-  duck.innerHTML = `
-    <div class="duck-stick"></div>
-    <div class="duck-wrapper">
-        <div class="duck-torso"><div class="duck-wing"></div></div>
-        <div class="duck-head">
-            <div class="duck-beak"></div>
-            <div class="duck-eye"></div>
-        </div>
-    </div>
-  `;
+  const randomHeight = Math.floor(Math.random() * 40) + 160;
+  duckContainer.style.bottom = randomHeight + 'px';
 
-  // --- CLICK EN EL PATO ---
-  const hitBox = duck.querySelector('.duck-wrapper');
-  hitBox.addEventListener('mousedown', (e) => {
-      e.stopPropagation(); // Evitar doble click
-      if (hitBox.classList.contains('duck-hit')) return; // Ya fue golpeado
+  const randomSpeed = Math.random() * 4 + 3;
+  duckContainer.style.animationDuration = randomSpeed + 's';
 
-      // Acierto
-      ducksHitCount++;
-      hitBox.classList.add('duck-hit');
-      updateProgress();
-      
-      // Efecto Visual
-      createExplosion(e.clientX, e.clientY);
+  const stick = document.createElement('div');
+  stick.classList.add('duck-stick');
 
-      // Chequeo de Bonos y Victoria
-      if (ducksHitCount === 3) showBonus('¡BONO 50%!');
-      if (ducksHitCount === 6) showBonus('¡BONO 100%!');
-      if (ducksHitCount === 9) showBonus('¡BONO 150%!');
-      
-      // VICTORIA INSTANTÁNEA
-      if (ducksHitCount >= WINNING_SCORE) {
-          showBonus('¡BONO 200%!');
-          setTimeout(() => { duck.remove(); }, 200);
-          endGame('WIN');
-          return;
-      }
+  const duckBody = document.createElement('div');
+  duckBody.classList.add('duck-wrapper');
 
-      setTimeout(() => { duck.remove(); }, 500);
+  const head = document.createElement('div'); head.classList.add('duck-head');
+  const beak = document.createElement('div'); beak.classList.add('duck-beak');
+  const eye  = document.createElement('div'); eye.classList.add('duck-eye');
+  const torso= document.createElement('div'); torso.classList.add('duck-torso');
+  const wing = document.createElement('div'); wing.classList.add('duck-wing');
+
+  head.appendChild(beak); head.appendChild(eye);
+  torso.appendChild(wing);
+  duckBody.appendChild(torso); duckBody.appendChild(head);
+
+  duckContainer.appendChild(stick);
+  duckContainer.appendChild(duckBody);
+
+  duckBody.addEventListener('mousedown', function (e) {
+    if (duckBody.classList.contains('duck-hit')) return;
+
+    ducksHitCount++;
+    updateProgressBar();
+
+    if (ducksHitCount === 3) showBonus('¡BONO 50%!');
+    if (ducksHitCount === 6) showBonus('¡BONO 100%!');
+    if (ducksHitCount === 9) showBonus('¡BONO 150%!');
+
+    createExplosion(e.clientX, e.clientY);
+
+    duckBody.classList.add('duck-hit');
+    setTimeout(() => duckContainer.remove(), 300);
+
+    if (ducksHitCount === 12) {
+      showBonus('¡BONO 200%!');
+      endGame({ title: "¡GANASTE!", bonus: "BONO 200%", level: "win" });
+    }
+
+    e.stopPropagation();
   });
 
-  ducksLayer.appendChild(duck);
+  if (gameLayer) gameLayer.appendChild(duckContainer);
 
-  // Limpieza automática si sale de pantalla
   setTimeout(() => {
-      if (duck.parentNode) duck.remove();
-  }, speed * 1000 + 500);
+    if (duckContainer.parentNode) duckContainer.remove();
+  }, (randomSpeed + 0.5) * 1000);
 
-  // Siguiente pato
-  spawnTimer = setTimeout(spawnDuck, Math.random() * 1000 + 500);
+  if (ducksRemaining > 0) {
+    const nextSpawnTime = Math.random() * 1000 + 500;
+    setTimeout(spawnDuck, nextSpawnTime);
+  }
 }
 
 function createExplosion(x, y) {
-    const boom = document.createElement('div');
-    boom.className = 'explosion';
-    boom.innerText = '💥';
-    boom.style.left = x + 'px';
-    boom.style.top = y + 'px';
-    document.body.appendChild(boom);
-    setTimeout(() => boom.remove(), 500);
+  const boom = document.createElement('div');
+  boom.classList.add('explosion');
+  boom.innerText = '💥';
+  boom.style.left = x + 'px';
+  boom.style.top = y + 'px';
+  document.body.appendChild(boom);
+  setTimeout(() => boom.remove(), 500);
 }
