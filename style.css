@@ -580,3 +580,32 @@ h1 {
     opacity: 1;
 }
 
+/* ========================================= */
+/* === CORRECCIÓN DE EMERGENCIA: RIFLES === */
+/* ========================================= */
+
+.rifle-container {
+    /* 1. Obligamos a que sean totalmente opacos (visibles) */
+    opacity: 1 !important;
+    
+    /* 2. Obligamos a que se muestren en bloque */
+    display: block !important;
+    visibility: visible !important;
+    
+    /* 3. Fijamos la posición donde se veían bien en tus fotos */
+    bottom: -180px; 
+    
+    /* 4. Z-Index correcto: Debajo de la cortina (que es 500) pero encima del agua */
+    z-index: 30 !important; 
+    
+    /* 5. Quitamos animaciones de entrada para evitar errores */
+    transition: none !important;
+}
+
+/* Ajustes de tamaño (Respeta lo que ya tenías) */
+@media (max-width: 1024px) {
+  .rifle-container { bottom: -170px; }
+}
+@media (max-width: 600px) {
+  .rifle-container { bottom: -210px; }
+}
