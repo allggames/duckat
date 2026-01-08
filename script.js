@@ -8,11 +8,11 @@ let ducksHitCount = 0;
 let isPlaying = false;
 
 // Elementos del DOM
-const container = document.getElementById('game-container');
+const container = document.getElementById('game-container'); // Contenedor principal
 const introScreen = document.getElementById('intro-screen');
 const gameUI = document.getElementById('game-ui');
 const counterElement = document.getElementById('duck-counter');
-const gameLayer = document.getElementById('ducks-layer');
+const gameLayer = document.getElementById('ducks-layer'); // <--- ESTA ES LA CAPA DE PATOS
 const progressFill = document.getElementById('progress-fill');
 const bonusPopup = document.getElementById('bonus-popup');
 const startBtn = document.getElementById('start-btn');
@@ -31,6 +31,7 @@ function startGame() {
 
     // 2. Abrir Cortinas
     container.classList.add('curtains-open');
+    container.classList.add('game-active'); // Aseguramos que se active el estado de juego
     
     // 3. Mostrar Interfaz y Rifles
     gameUI.style.display = 'block';
@@ -86,6 +87,7 @@ function endGame(customMessage) {
     
     // 1. Cerrar Cortinas
     container.classList.remove('curtains-open');
+    container.classList.remove('game-active');
 
     // 2. Ocultar Interfaz y Rifles
     gameUI.style.opacity = '0';
@@ -103,7 +105,9 @@ function endGame(customMessage) {
         // Usamos el mensaje personalizado o calculamos según los aciertos
         const finalMsg = customMessage || getResultText();
         
+        // Cambiar texto del botón y reactivar el onclick
         startBtn.innerHTML = `${finalMsg}<br><span style='font-size:1.2rem; margin-top:10px; display:block; color: white;'>JUGAR OTRA</span>`;
+        startBtn.onclick = startGame; 
     }, 1500);
 }
 
@@ -160,7 +164,7 @@ function spawnDuck() {
             if (ducksHitCount === 12) {
                 showBonus('¡BONO 200%!');
                 // Efecto visual antes de cortar
-                const boom = createExplosion(e.clientX, e.clientY);
+                createExplosion(e.clientX, e.clientY);
                 duckBody.classList.add('duck-hit');
                 setTimeout(() => duckContainer.remove(), 300);
                 
@@ -178,7 +182,13 @@ function spawnDuck() {
         e.stopPropagation();
     });
 
-    gameContainer.appendChild(duckContainer);
+    // --- AQUÍ ESTABA EL ERROR: Usamos gameLayer en vez de gameContainer ---
+    if (gameLayer) {
+        gameLayer.appendChild(duckContainer);
+    } else {
+        // Fallback por si acaso
+        document.body.appendChild(duckContainer);
+    }
 
     setTimeout(() => {
         if (duckContainer.parentNode) duckContainer.remove();
@@ -189,7 +199,6 @@ function spawnDuck() {
         const nextSpawnTime = Math.random() * 1000 + 500;
         setTimeout(spawnDuck, nextSpawnTime);
     } 
-    // Si ducksRemaining es 0, el loop se detiene y el timeout del principio de la función se encargará de cerrar
 }
 
 // Helper para explosión
@@ -201,5 +210,4 @@ function createExplosion(x, y) {
     boom.style.top = y + 'px';
     document.body.appendChild(boom);
     setTimeout(() => boom.remove(), 500);
-    return boom;
 }
