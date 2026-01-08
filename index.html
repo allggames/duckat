@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DUCKAT - Carnival Shooter</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,22 +20,25 @@
 
     <div id="intro-screen">
       <div class="top-banner">
-          <h1>DUCKAT</h1>
+        <h1>DUCKAT</h1>
       </div>
       <div id="start-btn" onclick="startGame()">¡JUGAR!</div>
     </div>
 
     <div id="game-ui">
-      <div id="score-board">PATOS: <span id="duck-counter">20</span></div>
-      
+      <div id="score-board">
+        <span class="score-label">PATOS:</span>
+        <span id="duck-counter" class="score-value">20</span>
+      </div>
+
       <div class="progress-wrapper">
         <div class="progress-bar">
-          <div id="progress-fill"></div> 
+          <div id="progress-fill"></div>
+          <div class="tick" style="left: 25%"><span>3</span></div>
+          <div class="tick" style="left: 50%"><span>6</span></div>
+          <div class="tick" style="left: 75%"><span>9</span></div>
+          <div class="tick" style="left: 100%"><span>12</span></div>
         </div>
-        <div class="tick" style="left: 25%"><span>3</span></div>
-        <div class="tick" style="left: 50%"><span>6</span></div>
-        <div class="tick" style="left: 75%"><span>9</span></div>
-        <div class="tick" style="left: 100%"><span>12</span></div>
         <div class="progress-label">BONUS METER</div>
       </div>
 
@@ -53,10 +60,10 @@
     <div class="stage-floor"></div>
 
     <div class="rifle-container" aria-hidden="true">
-      <img class="rifle-image" src="assets/rifles.png" alt="Rifles" draggable="false" />
+      <img class="rifle-image" src="assets/rifles.png" alt="" draggable="false" />
     </div>
 
-  </div> 
+  </div>
 
   <script src="script.js"></script>
 </body>
