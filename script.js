@@ -15,7 +15,47 @@ const bonusPopup = document.getElementById('bonus-popup');
 const startBtn = document.getElementById('start-btn');
 const rifleContainer = document.querySelector('.rifle-container');
 
+const shotAudio = document.getElementById('shot-audio');
+const flashes = [
+  document.querySelector('.flash-1'),
+  document.querySelector('.flash-2'),
+  document.querySelector('.flash-3')
+];
+let flashIndex = 0;
+
 if (rifleContainer) rifleContainer.style.opacity = '0';
+
+function playShotSound(){
+  if (!shotAudio) return;
+  try{
+    shotAudio.currentTime = 0;
+    shotAudio.play();
+  }catch(e){}
+}
+
+function triggerMuzzleFlash(){
+  const el = flashes[flashIndex % flashes.length];
+  flashIndex = (flashIndex + 1) % flashes.length;
+  if (!el) return;
+  el.classList.remove('flash-on');
+  void el.offsetWidth;
+  el.classList.add('flash-on');
+}
+
+function handleShot(){
+  if (!isPlaying) return;
+  playShotSound();
+  triggerMuzzleFlash();
+}
+
+if (container){
+  container.addEventListener('pointerdown', (e) => {
+    if (!isPlaying) return;
+    if (e.target && e.target.closest && e.target.closest('#start-btn')) return;
+    if (e.target && e.target.closest && e.target.closest('.duck-wrapper')) return;
+    handleShot();
+  }, { passive:true });
+}
 
 function startGame() {
   introScreen.style.opacity = '0';
@@ -143,6 +183,9 @@ function spawnDuck() {
     if (ducksHitCount === 3) showBonus('¡BONO 50%!');
     if (ducksHitCount === 6) showBonus('¡BONO 100%!');
     if (ducksHitCount === 9) showBonus('¡BONO 150%!');
+
+    playShotSound();
+    triggerMuzzleFlash();
 
     createExplosion(e.clientX, e.clientY);
 
