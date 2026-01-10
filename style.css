@@ -636,3 +636,32 @@ h1{
   :root{ --flash-size:24px; }
 }
 
+/* --- ESTILOS PARA EL CARTEL DE RESULTADO FINAL --- */
+
+/* Animación de entrada para que el cartel aparezca con efecto */
+.final-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 320px;
+    animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes scaleIn {
+    from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Colores de borde según el bono ganado para dar feedback visual */
+.lvl-win  { border: 6px solid #4caf50 !important; } /* Verde - 200% */
+.lvl-high { border: 6px solid #8bc34a !important; } /* Verde claro - 150% */
+.lvl-mid  { border: 6px solid #ffeb3b !important; } /* Amarillo - 100% */
+.lvl-low  { border: 6px solid #ff9800 !important; } /* Naranja - 50% */
+.lvl-none { border: 6px solid #f44336 !important; } /* Rojo - Sin Bono */
+
+/* Ajuste de texto interno para que el bono destaque más */
+.final-bonus {
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
