@@ -118,6 +118,7 @@ function renderFinalPopup({ title, bonus, level }) {
 }
 
 function endGame(custom) {
+ if (!isPlaying) return;
   isPlaying = false;
 
   const remainingDucks = document.querySelectorAll('.duck-container');
@@ -141,33 +142,38 @@ const result = custom || getResult();
 }
 
 function spawnDuck() {
+  // 1. Si el juego ya no está activo, no hacer nada.
   if (!isPlaying) return;
 
+  // 2. Si ya no quedan patos para spawnear (llegamos a 0)
   if (ducksRemaining <= 0) {
-    setTimeout(() => { 
-        if (isPlaying) {
-            const finalResult = getResult(); // Obtenemos el bono según ducksHitCount
-            endGame(finalResult); 
-        } 
-    }, 2000);
-    return;
-}
+    // Verificamos si hay patos todavía volando en la pantalla
+    const ducksInScreen = document.querySelectorAll('.duck-container').length;
+    
+    // Si no quedan patos físicamente, o esperamos un tiempo prudencial:
+    if (ducksInScreen === 0) {
+      endGame();
+    } else {
+      // Re-revisamos en 1 segundo hasta que la pantalla esté limpia
+      setTimeout(spawnDuck, 1000);
+    }
+    return; 
+  }
 
+  // 3. Descontar el pato que vamos a crear ahora
   ducksRemaining--;
   if (counterElement) counterElement.innerText = ducksRemaining;
 
+  // 4. Crear el pato
   const duckContainer = document.createElement('div');
   duckContainer.classList.add('duck-container');
-
   const randomHeight = Math.floor(Math.random() * 40) + 160;
   duckContainer.style.bottom = randomHeight + 'px';
-
   const randomSpeed = Math.random() * 4 + 3;
   duckContainer.style.animationDuration = randomSpeed + 's';
 
   const stick = document.createElement('div');
   stick.classList.add('duck-stick');
-
   const duckBody = document.createElement('div');
   duckBody.classList.add('duck-wrapper');
 
@@ -180,13 +186,12 @@ function spawnDuck() {
   head.appendChild(beak); head.appendChild(eye);
   torso.appendChild(wing);
   duckBody.appendChild(torso); duckBody.appendChild(head);
-
   duckContainer.appendChild(stick);
   duckContainer.appendChild(duckBody);
 
+  // Lógica de disparo
   duckBody.addEventListener('mousedown', function (e) {
-    if (duckBody.classList.contains('duck-hit')) return;
-
+    if (!isPlaying || duckBody.classList.contains('duck-hit')) return;
     ducksHitCount++;
     updateProgressBar();
 
@@ -196,28 +201,28 @@ function spawnDuck() {
 
     playShotSound();
     triggerMuzzleFlash();
-
     createExplosion(e.clientX, e.clientY);
-
     duckBody.classList.add('duck-hit');
+    
     setTimeout(() => duckContainer.remove(), 300);
 
     if (ducksHitCount === 12) {
       showBonus('¡BONO 200%!');
-      endGame({ title: "¡GANASTE!", bonus: "BONO 200%", level: "win" });
+      setTimeout(() => endGame(), 500);
     }
-
     e.stopPropagation();
   });
 
   if (gameLayer) gameLayer.appendChild(duckContainer);
 
+  // Limpieza si el pato se escapa
   setTimeout(() => {
     if (duckContainer.parentNode) duckContainer.remove();
-  }, (randomSpeed + 0.5) * 1000);
+  }, randomSpeed * 1000);
 
+  // 5. Solo programar el SIGUIENTE pato si todavía quedan
   if (ducksRemaining > 0) {
-    const nextSpawnTime = Math.random() * 1000 + 500;
+    const nextSpawnTime = Math.random() * 1000 + 600;
     setTimeout(spawnDuck, nextSpawnTime);
   }
 }
