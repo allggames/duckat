@@ -654,11 +654,11 @@ h1{
 }
 
 /* Colores de borde según el bono ganado para dar feedback visual */
-.lvl-win  { border: 6px solid #4caf50 !important; } /* Verde - 200% */
-.lvl-high { border: 6px solid #8bc34a !important; } /* Verde claro - 150% */
-.lvl-mid  { border: 6px solid #ffeb3b !important; } /* Amarillo - 100% */
-.lvl-low  { border: 6px solid #ff9800 !important; } /* Naranja - 50% */
-.lvl-none { border: 6px solid #f44336 !important; } /* Rojo - Sin Bono */
+.lvl-win  { border: 6px solid #CDA434 !important; } /*200% */
+.lvl-high { border: 6px solid #EEB609 !important; } /*150% */
+.lvl-mid  { border: 6px solid #DBA514 !important; } /*100% */
+.lvl-low  { border: 6px solid #D7AE00 !important; } /*50% */
+.lvl-none { border: 6px solid #f44336 !important; } /*Sin Bono */
 
 /* Ajuste de texto interno para que el bono destaque más */
 .final-bonus {
