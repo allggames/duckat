@@ -104,10 +104,15 @@ function getResult() {
 function renderFinalPopup({ title, bonus, level }) {
   startBtn.className = '';
   startBtn.classList.add('final-btn', `lvl-${level}`);
+  
+  // Si el nivel es 'none' (0-2 patos), podemos cambiar el texto
+  const subText = (level === 'none') ? "INTÉNTALO DE NUEVO" : "¡FELICIDADES!";
+
   startBtn.innerHTML = `
     <div class="final-title">${title}</div>
+    <div style="font-size: 1rem; color: #fff; margin-top: 5px;">${subText}</div>
     <div class="final-bonus">${bonus}</div>
-    <div class="final-cta">JUGAR OTRA</div>
+    <div class="final-cta">JUGAR OTRA VEZ</div>
   `;
   startBtn.onclick = startGame;
 }
@@ -139,9 +144,14 @@ function spawnDuck() {
   if (!isPlaying) return;
 
   if (ducksRemaining <= 0) {
-    setTimeout(() => { if (isPlaying) endGame(); }, 2000);
+    setTimeout(() => { 
+        if (isPlaying) {
+            const finalResult = getResult(); // Obtenemos el bono según ducksHitCount
+            endGame(finalResult); 
+        } 
+    }, 2000);
     return;
-  }
+}
 
   ducksRemaining--;
   if (counterElement) counterElement.innerText = ducksRemaining;
