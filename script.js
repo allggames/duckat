@@ -135,7 +135,7 @@ function endGame(custom) {
     introScreen.style.display = 'flex';
     setTimeout(() => { introScreen.style.opacity = '1'; }, 50);
 
-    const result = custom || getResult();
+const result = custom || getResult();
     renderFinalPopup(result);
   }, 1500);
 }
