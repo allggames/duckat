@@ -62,15 +62,35 @@ function getResult() {
 }
 
 function renderFinalPopup({ title, bonus, level }) {
-    startBtn.className = 'final-btn ' + `lvl-${level}`;
-    const subText = (level === 'none') ? "INTÉNTALO DE NUEVO" : "¡FELICIDADES!";
+    // Cambiamos la clase para que el diseño sepa que es el final
+    startBtn.className = 'final-card ' + `lvl-${level}`;
+    
+    const isWinner = level !== 'none';
+    const chatUrl = "https://www.casinoatenea.com/?open=true"; // URL de tu webchat
+
     startBtn.innerHTML = `
         <div class="final-title">${title}</div>
-        <div style="font-size: 1rem; color: #fff; margin-top: 5px;">${subText}</div>
         <div class="final-bonus">${bonus}</div>
-        <div class="final-cta">JUGAR OTRA VEZ</div>
+        
+        <div class="final-actions">
+            ${isWinner ? `
+                <button class="btn-claim" onclick="window.location.href='${chatUrl}'">
+                    <span>RECLAMAR PREMIO 📸</span>
+                    <small>Capturá y enviá acá</small>
+                </button>
+                <button class="btn-retry secondary" onclick="startGame()">
+                    INTENTAR MEJORAR
+                </button>
+            ` : `
+                <button class="btn-retry" onclick="startGame()">
+                    JUGAR OTRA VEZ
+                </button>
+            `}
+        </div>
     `;
-    startBtn.onclick = startGame;
+    
+    // Anulamos el onclick del contenedor padre para que no interfiera con los botones hijos
+    startBtn.onclick = null;
 }
 
 function startGame() {
