@@ -665,3 +665,74 @@ h1{
     margin: 10px 0;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
+
+
+/* Contenedor del cartel de resultados */
+.final-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--banner-gold);
+    padding: 25px;
+    border-radius: 20px;
+    z-index: 500;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 300px;
+    pointer-events: auto; /* IMPORTANTE para que los botones funcionen */
+}
+
+.final-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Botón de Reclamar (Verde) */
+.btn-claim {
+    background: #2e7d32;
+    color: white;
+    border: 3px solid #fff;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.1s;
+}
+
+.btn-claim span { font-size: 1.3rem; }
+.btn-claim small { font-size: 0.8rem; font-weight: 400; opacity: 0.9; }
+
+/* Botones de Reintentar */
+.btn-retry {
+    background: #ef6c00;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.3);
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Lexend', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+.btn-retry.secondary {
+    background: rgba(0,0,0,0.2);
+    font-size: 0.9rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #4a2f00;
+}
+
+.btn-claim:active, .btn-retry:active {
+    transform: scale(0.95);
+}
